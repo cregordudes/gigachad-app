@@ -5,40 +5,28 @@ import WebApp from "@twa-dev/sdk";
 
 function App() {
    useEffect(() => {
-      WebApp.expand();
-      console.log(WebApp?.initDataUnsafe?.user);
-      WebApp.sendData(WebApp?.platform);
+      WebApp?.expand();
+      console.log("WEB APP USER: ", WebApp?.initDataUnsafe?.user);
 
-      //   if (WebApp.initData) {
-      //      WebApp.sendData("App started");
-      //      WebApp.sendData(initData);
+      if (
+         WebApp?.platform !== "android" &&
+         WebApp?.platform !== "ios" &&
+         WebApp?.platform !== "android_x"
+      ) {
+         WebApp?.showPopup(
+            {
+               title: "Invalid OS",
+               message: `Please open this app on your mobile phone or tablet, currently open on ${WebApp?.platform}`,
+            },
+            () => {
+               WebApp?.close();
+            }
+         );
+      }
 
-      //      if (WebApp.WebAppInitData) {
-      //         console.log(WebApp.WebAppInitData);
-      //         WebApp.sendData(WebApp.WebAppInitData);
-      //         WebApp.
-      //      }
-
-      //      if (WebApp.WebAppUser) {
-      //         console.log(WebApp.WebAppUser);
-      //         WebApp.sendData(WebApp.WebAppUser);
-      //      }
-
-      //      WebApp.onEvent("mainButtonClicked", () => {
-      //         WebApp.sendData("mainButtonClicked");
-      //      });
-
-      //      WebApp.onEvent("message", async (msg) => {
-      //         const chatId = msg.chat.id;
-      //         const text = msg.text;
-      //         if (text) {
-      //            await WebApp.sendText(chatId, "Hello!");
-      //         }
-      //      });
-      //   }
+      console.log("WEB APP PLATFORM DATA:", WebApp?.platform);
    }, []);
 
-   console.log(WebApp);
    return <AppRouter />;
 }
 
