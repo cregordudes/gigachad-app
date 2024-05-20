@@ -1,11 +1,11 @@
-import WorkImage from "../assets/Work.png";
-import WorkCharacter from "../assets/characterWork.png";
+import { lazy } from "react";
+
+const WorkScene = lazy(() => import("../components/WorkScene"));
 
 const Work = () => {
    return (
       <div className="relative">
-         <img src={WorkImage} />
-         <img src={WorkCharacter} className="absolute bottom-36 left-[90px]" />
+         <WorkScene />
       </div>
    );
 };
