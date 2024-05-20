@@ -9,17 +9,18 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "configbot": "node configure.js"
-
   },
   "dependencies": {
     "@tanstack/react-query": "^5.36.2",
+    "@twa-dev/sdk": "^7.0.0",
     "autoprefixer": "^10.4.19",
     "axios": "^1.6.8",
     "postcss": "^8.4.38",
     "reac": "^0.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.23.1"
+    "react-router-dom": "^6.23.1",
+    "react-spinners": "^0.13.8"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
