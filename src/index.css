@@ -28,10 +28,104 @@ body {
   display: flex;
   place-items: center;
   min-width: 320px;
-  min-height: 100vh;
+  min-height: 100%;
   background-color: var(--tg-theme-bg-color);
   color: var(--tg-theme-text-color)
 }
+
+.no-left-radius {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+ /*var(--tg-color-scheme)*/
+
+
+/* THEME dark
+accent_text_color
+: 
+"#869eed"
+bg_color
+: 
+"#26293a"
+button_color
+: 
+"#768fe9"
+button_text_color
+: 
+"#ffffff"
+destructive_text_color
+: 
+"#ee686f"
+header_bg_color
+: 
+"#282938"
+hint_color
+: 
+"#838697"
+link_color
+: 
+"#7d95de"
+secondary_bg_color
+: 
+"#191a26"
+section_bg_color
+: 
+"#212332"
+section_header_text_color
+: 
+"#98aef8"
+subtitle_text_color
+: 
+"#7f838f"
+text_color
+: 
+"#ffffff"
+ */
+
+ /* THEME Light
+
+accent_text_color
+: 
+-14904349
+bg_color
+: 
+-1
+button_color
+: 
+-11491093
+button_text_color
+: 
+-1
+destructive_text_color
+: 
+-3397335
+header_bg_color
+: 
+-11371101
+hint_color
+: 
+-5723992
+link_color
+: 
+-14255946
+secondary_bg_color
+: 
+-986896
+section_bg_color
+: 
+-1
+section_header_text_color
+: 
+-12937771
+subtitle_text_color
+: 
+-8223094
+text_color
+: 
+-14540254
+ */
+
 
 h1 {
   font-size: 3.2em;
