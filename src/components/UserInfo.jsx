@@ -1,8 +1,12 @@
 import { useState } from "react";
 import Popup from "./Popup";
+import ProgressBar from "./ProgressBar.jsx";
 
 const UserInfo = () => {
    const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+   const [currentLevel, setCurrentLevel] = useState(3);
+   const maxLevel = 10;
 
    const togglePopup = () => {
       setIsPopupOpen(!isPopupOpen);
@@ -10,9 +14,11 @@ const UserInfo = () => {
    return (
       <>
          <div className="w-full absolute top-0 left-0 flex justify-around items-center z-10 h-40">
-            <div className="flex flex-col justify-evenly h-full">
+            <div className="flex flex-col justify-evenly h-full w-2/3">
                <button>energy</button>
-               <button>body lvl</button>
+
+               <ProgressBar currentLevel={currentLevel} maxLevel={maxLevel} />
+
                <button>wealth lvl</button>
             </div>
             <div className="flex justify-center">

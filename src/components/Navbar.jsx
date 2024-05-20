@@ -6,21 +6,23 @@ const Navbar = () => {
    return (
       <nav className="w-full h-32 absolute bottom-0 left-0 flex justify-center items-center z-10">
          {pathname === "/gigachad-app/" ? (
-            <ul className="w-2/3 flex justify-around">
-               <li className="flex bg-slate-300 rounded border-transparent px-4 py-2 cursor-pointer font-medium text-base">
-                  <Link to={"/gigachad-app/gym"} className="text-black">
-                     Gym
-                  </Link>
-               </li>
-               <li className="flex bg-slate-300 rounded border-transparent px-4 py-2 cursor-pointer font-medium text-base">
-                  Rest
-               </li>
-               <li className="flex bg-slate-300 rounded border-transparent px-4 py-2 cursor-pointer font-medium text-base">
-                  <Link to={"/gigachad-app/work"} className="text-black">
-                     Work
-                  </Link>
-               </li>
-            </ul>
+            <>
+               <ul className="w-2/3 flex justify-around">
+                  <li className="flex bg-slate-300 rounded border-transparent px-4 py-2 cursor-pointer font-medium text-base">
+                     <Link to={"/gigachad-app/gym"} className="text-black">
+                        Gym
+                     </Link>
+                  </li>
+                  <li className="flex bg-slate-300 rounded border-transparent px-4 py-2 cursor-pointer font-medium text-base">
+                     Rest
+                  </li>
+                  <li className="flex bg-slate-300 rounded border-transparent px-4 py-2 cursor-pointer font-medium text-base">
+                     <Link to={"/gigachad-app/work"} className="text-black">
+                        Work
+                     </Link>
+                  </li>
+               </ul>
+            </>
          ) : (
             <ul className="w-2/3 flex justify-around">
                <li className="flex bg-slate-300 rounded border-transparent px-4 py-2 cursor-pointer font-medium text-base">
