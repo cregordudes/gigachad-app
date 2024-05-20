@@ -8,12 +8,12 @@ import Layout from "./Layout.jsx";
 const AppRouter = () => {
    return (
       <Routes>
-         <Route path="/" element={<Layout />}>
+         <Route path="/gigachad-app/" element={<Layout />}>
             <Route index element={<Home />} />
-            <Route path="/gym" element={<Gym />} />
-            <Route path="/work" element={<Work />} />
-            <Route path="*" element={<ErrorPage />} />
+            <Route path="gym" element={<Gym />} />
+            <Route path="work" element={<Work />} />
          </Route>
+         <Route path="*" element={<ErrorPage />} />
       </Routes>
    );
 };
