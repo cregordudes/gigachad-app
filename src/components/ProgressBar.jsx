@@ -5,7 +5,7 @@ const ProgressBar = ({ currentLevel, maxLevel }) => {
 
    return (
       <div className="relative flex items-center w-full rounded-2xl ">
-         <div className="flex w-full rounded-xl bg-gray-300">
+         <div className="flex w-full rounded-2xl bg-gray-300">
             {levels.map((level) => (
                <div
                   key={level}

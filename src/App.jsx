@@ -13,15 +13,20 @@ function App() {
          WebApp?.platform !== "ios" &&
          WebApp?.platform !== "android_x"
       ) {
-         WebApp?.showPopup(
-            {
-               title: "Invalid OS",
-               message: `Please open this app on your mobile phone or tablet, currently open on ${WebApp?.platform}`,
-            },
-            () => {
+         try {
+            WebApp?.showAlert(
+               `Please open this app on your mobile phone or tablet, currently open on ${WebApp?.platform}`,
+               () => {
+                  WebApp?.close();
+               }
+            ).then(() => {
                WebApp?.close();
-            }
-         );
+            });
+         } catch (error) {
+            console.error("Error showing alert:", error);
+         } finally {
+            WebApp?.close();
+         }
       }
 
       console.log("WEB APP PLATFORM DATA:", WebApp?.platform);

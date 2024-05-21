@@ -1,19 +1,11 @@
-import GymImage from "../assets/Gym.png";
-import GymCharacter from "../assets/characterGym.png";
-import WebApp from "@twa-dev/sdk";
-import TouchCounter from "../components/TouchCounter";
+import { lazy } from "react";
+
+const GymScene = lazy(() => import("../components/GymScene"));
 
 const Gym = () => {
    return (
       <div className="relative">
-         <TouchCounter>
-            <img src={GymImage} alt="gym" />
-            <img
-               src={GymCharacter}
-               alt="chad"
-               className="absolute bottom-56 left-36"
-            />
-         </TouchCounter>
+         <GymScene />
       </div>
    );
 };

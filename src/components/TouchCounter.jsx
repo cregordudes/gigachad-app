@@ -41,8 +41,8 @@ const TouchCounter = ({ children }) => {
                   transform: "translate(-50%, -50%)",
                   pointerEvents: "none",
                   animation: "fadeOut 1s forwards",
-                  color: "red",
-                  fontSize: "20px",
+                  color: "#fff4c0",
+                  fontSize: "24px",
                }}
             >
                +1

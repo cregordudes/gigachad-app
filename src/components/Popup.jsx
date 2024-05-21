@@ -1,9 +1,9 @@
 const Popup = ({ title, text, onClose }) => {
    return (
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-20 p-6 h-full">
-         <div className="bg-white p-6 h-fit rounded shadow-lg relative">
+         <div className="bg-white text-black p-6 h-fit rounded shadow-lg relative">
             <button
-               className="absolute top-2 right-2 text-xl font-bold"
+               className="absolute top-2 right-2 text-xl font-bold bg-opacity-10 "
                onClick={onClose}
             >
                <svg
