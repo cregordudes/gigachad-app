@@ -60,6 +60,16 @@ button, li{
   animation: rotate 2s linear infinite;
 }
 
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
  /*var(--tg-color-scheme)*/
 
 

@@ -5,6 +5,9 @@ const TouchCounter = ({ children }) => {
    const [bodyCounter, setBodyCounter] = useState(0);
 
    const handleTouchStart = (e) => {
+      if (navigator.vibrate) {
+         navigator.vibrate(25);
+      }
       const touch = e.touches[0];
       const newTouchPoint = {
          id: Date.now(),
@@ -24,7 +27,7 @@ const TouchCounter = ({ children }) => {
       }, 1000);
    };
 
-   console.log(bodyCounter);
+   //console.log(bodyCounter);
 
    return (
       <div
@@ -41,23 +44,18 @@ const TouchCounter = ({ children }) => {
                   transform: "translate(-50%, -50%)",
                   pointerEvents: "none",
                   animation: "fadeOut 1s forwards",
-                  color: "#fff4c0",
+                  color: "#00FF72",
                   fontSize: "24px",
+                  zIndex: 10,
                }}
             >
                +1
             </span>
          ))}
-         <style>{`
-        @keyframes fadeOut {
-          0% {
-            opacity: 1;
-          }
-          100% {
-            opacity: 0;
-          }
-        }
-      `}</style>
+
+         <span className="absolute top-20 left-[40%] text-green-400 text-8xl">
+            {bodyCounter}
+         </span>
          {children}
       </div>
    );

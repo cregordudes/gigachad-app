@@ -5,6 +5,7 @@ import Work from "../pages/Work.jsx";
 import ErrorPage from "../pages/ErrorPage.jsx";
 import Layout from "./Layout.jsx";
 import Main from "../pages/Main.jsx";
+import GymTapPage from "../pages/GymTapPage.jsx";
 
 const AppRouter = () => {
    return (
@@ -14,6 +15,7 @@ const AppRouter = () => {
             <Route path="home" element={<Home />} />
             <Route path="gym" element={<Gym />} />
             <Route path="work" element={<Work />} />
+            <Route path="tap" element={<GymTapPage />} />
          </Route>
          <Route path="*" element={<ErrorPage />} />
       </Routes>

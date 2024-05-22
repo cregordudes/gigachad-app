@@ -2,6 +2,7 @@ import { useState } from "react";
 import Popup from "./Popup";
 import ProgressBar from "./ProgressBar.jsx";
 import { useLocation } from "react-router-dom";
+import Boosts from "../assets/boostIcon.svg";
 
 const UserInfo = () => {
    const { pathname } = useLocation();
@@ -16,9 +17,10 @@ const UserInfo = () => {
    };
    return (
       <>
-         {pathname === "/gigachad-app/" ? null : (
+         {pathname === "/gigachad-app/" ||
+         pathname == "/gigachad-app/tap" ? null : (
             <>
-               <div className="w-full absolute top-0 left-0 flex justify-around items-center z-10 h-40">
+               <div className="w-full absolute top-0 left-0 flex justify-around items-center z-10 h-40 bg-gray-900 bg-opacity-50">
                   <div className="flex flex-col justify-evenly h-full w-2/3">
                      <button>energy</button>
 
@@ -30,7 +32,12 @@ const UserInfo = () => {
                      <button>wealth lvl</button>
                   </div>
                   <div className="flex justify-center">
-                     <button onClick={togglePopup}>Boosts</button>
+                     <img
+                        onClick={togglePopup}
+                        alt="boosts"
+                        src={Boosts}
+                        className="w-full h-auto cursor-pointer"
+                     />
                   </div>
                </div>
                {isPopupOpen && (

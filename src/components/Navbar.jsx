@@ -4,24 +4,23 @@ const Navbar = () => {
    const { pathname } = useLocation();
 
    return (
-      <nav className="w-full h-32 absolute bottom-0 left-0 flex justify-center items-center z-10">
-         {pathname === "/gigachad-app/" ? (
-            <>
-               <div className="w-60 h-10 flex justify-around relative">
+      <>
+         {pathname == "/gigachad-app/" ? (
+            <nav className="w-full h-8 absolute top-3/4 left-0 flex justify-end items-center z-10">
+               <div className="w-[215px] h-10 flex justify-end relative">
                   <button
-                     className="flex rounded-none border-transparent py-2 cursor-pointer font-medium text-base bg-[#009AE0] border-b-4 border-b-[#005791] text-white
-                     before:bg-[#009AE0] before:border-b-4 before:border-b-[#005791]  before:shadow-lg before:w-2 before:h-4 before:absolute before:top-3 before:left-8
-                  after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-4 after:absolute after:top-3 after:right-8
-                  "
+                     className="w-[205px] flex justify-center rounded-none border-transparent py-2 cursor-pointer font-medium text-base bg-[#009AE0] border-b-4 border-b-[#005791] text-white
+                     before:bg-[#009AE0] before:border-b-4 before:border-b-[#005791]  before:shadow-lg before:w-2 before:h-6 before:absolute before:top-2 before:left-0.5"
+                     //after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-4 after:absolute after:top-3 after:right-8
                   >
                      <Link to={"/gigachad-app/home"} className="">
                         Become GigaChad
                      </Link>
                   </button>
                </div>
-            </>
-         ) : pathname === "/gigachad-app/home" ? (
-            <>
+            </nav>
+         ) : pathname == "/gigachad-app/tap" ? null : (
+            <nav className="w-full h-32 absolute bottom-0 left-0 flex justify-center items-center z-10">
                <ul className="w-2/3 flex justify-around">
                   <li className="flex rounded border-transparent px-4 py-2 cursor-pointer font-medium text-base">
                      <Link to={"/gigachad-app/gym"} className="">
@@ -29,28 +28,24 @@ const Navbar = () => {
                      </Link>
                   </li>
                   <li className="flex rounded border-transparent px-4 py-2 cursor-pointer font-medium text-base">
-                     Rest
+                     <Link to={"/gigachad-app/home"} className="">
+                        Rest
+                     </Link>
                   </li>
                   <li className="flex rounded border-transparent px-4 py-2 cursor-pointer font-medium text-base">
                      <Link to={"/gigachad-app/work"} className="">
                         Work
                      </Link>
                   </li>
+                  <li className="flex rounded border-transparent px-4 py-2 cursor-pointer font-medium text-base">
+                     <Link to={"#"} className="">
+                        Frens
+                     </Link>
+                  </li>
                </ul>
-            </>
-         ) : (
-            <ul className="w-2/3 flex justify-around">
-               <li className="flex  rounded border-transparent px-4 py-2 cursor-pointer font-medium text-base">
-                  <Link to={"/gigachad-app/home"} className="">
-                     Back
-                  </Link>
-               </li>
-               <li className="flex  rounded border-transparent px-4 py-2 cursor-pointer font-medium text-base">
-                  Start
-               </li>
-            </ul>
+            </nav>
          )}
-      </nav>
+      </>
    );
 };
 
