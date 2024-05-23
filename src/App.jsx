@@ -6,6 +6,7 @@ import WebApp from "@twa-dev/sdk";
 function App() {
    useEffect(() => {
       WebApp?.expand();
+      WebApp?.enableClosingConfirmation();
       console.log("WEB APP USER: ", WebApp?.initDataUnsafe?.user);
 
       if (
@@ -30,6 +31,13 @@ function App() {
       }
 
       console.log("WEB APP PLATFORM DATA:", WebApp?.platform);
+   }, []);
+
+   useEffect(() => {
+      WebApp.onEvent("viewportChanged", (e) => {
+         console.log(e);
+         e.preventDefault();
+      });
    }, []);
 
    return <AppRouter />;
