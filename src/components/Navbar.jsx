@@ -11,7 +11,7 @@ const Navbar = () => {
       { id: 1, link: "gym", name: "Gym", icon: GymIcon },
       { id: 2, link: "home", name: "Rest", icon: HomeIcon },
       { id: 3, link: "work", name: "Work", icon: WorkIcon },
-      { id: 4, link: "#", name: "Frens", icon: FrensIcon },
+      { id: 4, link: "home", name: "Frens", icon: FrensIcon },
    ];
 
    return (

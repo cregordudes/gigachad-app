@@ -24,9 +24,7 @@ const HomeScene = memo(() => {
                      "
                //before:bg-[#009AE0] before:border-b-4 before:border-b-[#005791]  before:shadow-lg before:w-2 before:h-6 before:absolute before:top-2 before:left-0.5
             >
-               <Link to={"/gigachad-app/#"} className="">
-                  3H 24MIN
-               </Link>
+               3H 24MIN
             </button>
          </div>
       </div>
