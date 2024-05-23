@@ -32,13 +32,13 @@ const Navbar = () => {
             </nav>
          ) : pathname == "/gigachad-app/tap" ? null : (
             <nav className="w-full h-16 absolute bottom-0 left-0 flex justify-center items-end z-10">
-               <ul className="w-full flex justify-around items-end  bg-black bg-opacity-85 pt-1">
+               <ul className="w-full flex justify-around items-end  bg-black bg-opacity-85 pt-2">
                   {navItems.map((item) => (
-                     <div className="flex justify-center items-center">
+                     <div className="flex justify-center items-center w-[72px] h-[65px]">
                         <div className="w-1 h-5 bg-[#424C4D]  border-b-4 border-b-[#27383A]" />
                         <li
                            key={item.id}
-                           className="w-16 h-auto flex border-transparent px-2 py-2 cursor-pointer font-medium text-sm bg-[#424C4D] border-b-4 border-b-[#27383A] shadow-lg"
+                           className="w-16 h-auto max-h-[65px] flex border-transparent px-2 py-2 cursor-pointer font-medium text-sm bg-[#424C4D] border-b-4 border-b-[#27383A] shadow-lg"
                            //before:bg-[#009AE0] before:border-b-4 before:border-b-[#005791]  before:shadow-lg before:w-2 before:h-6 before:
                            //after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-4 after:absolute after:top-3 after:right-8
                         >
@@ -46,7 +46,7 @@ const Navbar = () => {
                               <img
                                  src={item.icon}
                                  alt="icon"
-                                 className="w-[62px] h-full]"
+                                 className="w-full h-auto object-cover"
                                  loading="lazy"
                               />
                               <span>{item.name}</span>
