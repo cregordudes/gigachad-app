@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import WebApp from "@twa-dev/sdk";
 
 const TouchCounter = ({ children }) => {
    const [touchPoints, setTouchPoints] = useState([]);
@@ -6,8 +7,12 @@ const TouchCounter = ({ children }) => {
 
    const handleTouchStart = (e) => {
       if (navigator.vibrate) {
-         navigator.vibrate(25);
+         navigator.vibrate(10);
       }
+
+      //vibration for ios
+      WebApp.HapticFeedback.impactOccurred("light");
+
       const touch = e.touches[0];
       const newTouchPoint = {
          id: Date.now(),
@@ -52,10 +57,11 @@ const TouchCounter = ({ children }) => {
                +1
             </span>
          ))}
-
-         <span className="absolute top-20 left-[40%] text-green-400 text-8xl">
-            {bodyCounter}
-         </span>
+         <div className="relative flex justify-center items-center">
+            <span className="absolute top-20  text-green-400 text-8xl">
+               {bodyCounter}
+            </span>
+         </div>
          {children}
       </div>
    );
