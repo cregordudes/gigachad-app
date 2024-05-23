@@ -25,7 +25,7 @@ const UserInfo = () => {
          {pathname === "/gigachad-app/" ||
          pathname == "/gigachad-app/tap" ? null : (
             <>
-               <div className="w-full absolute top-0 left-0 flex justify-around items-center z-10  bg-gray-900 bg-opacity-50">
+               <div className="w-full absolute top-0 left-0 flex justify-around items-center z-10  bg-gray-900 bg-opacity-50 pb-2">
                   <div className="flex flex-col justify-start h-full w-2/3">
                      <EnergyBar
                         currentLevel={currentEnergy}

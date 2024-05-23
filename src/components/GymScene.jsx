@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import GymImage from "../assets/Gym.gif";
+import GymImage from "../assets/Gym1.gif";
 import GymCharacter from "../assets/characterGym.png";
 import BgImage from "../assets/page_bg.png";
 import { memo } from "react";
