@@ -33,12 +33,12 @@ function App() {
       console.log("WEB APP PLATFORM DATA:", WebApp?.platform);
    }, []);
 
-   useEffect(() => {
-      WebApp.onEvent("viewportChanged", (e) => {
-         console.log(e);
-         e.preventDefault();
-      });
-   }, []);
+   //useEffect(() => {
+   //   WebApp.onEvent("viewportChanged", (e) => {
+   //      console.log(e);
+   //      e.preventDefault();
+   //   });
+   //}, []);
 
    return <AppRouter />;
 }

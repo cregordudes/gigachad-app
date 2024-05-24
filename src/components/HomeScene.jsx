@@ -1,10 +1,10 @@
 import HomeImage from "../assets/Home.png";
 import HomeGif from "../assets/Home.gif";
 import HomeCharacter from "../assets/characterHome.png";
-import { memo } from "react";
+
 import { Link } from "react-router-dom";
 
-const HomeScene = memo(() => {
+const HomeScene = () => {
    return (
       <div className="relative">
          <img src={HomeGif} alt="home" loading="lazy" />
@@ -29,6 +29,6 @@ const HomeScene = memo(() => {
          </div>
       </div>
    );
-});
+};
 
 export default HomeScene;

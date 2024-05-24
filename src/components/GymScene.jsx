@@ -2,10 +2,9 @@ import { Link } from "react-router-dom";
 import GymImage from "../assets/Gym1.gif";
 import GymCharacter from "../assets/characterGym.png";
 import BgImage from "../assets/page_bg.png";
-import { memo } from "react";
 import { BackButton } from "@twa-dev/sdk/react";
 
-const Gym = memo(() => {
+const Gym = () => {
    return (
       <div className="relative" style={{ backgroundImage: `${BgImage}` }}>
          <span className="font-bold text-4xl text-green-400 absolute top-56 right-10">
@@ -31,6 +30,6 @@ const Gym = memo(() => {
          <img src={GymImage} alt="gym" loading="lazy" />
       </div>
    );
-});
+};
 
 export default Gym;
