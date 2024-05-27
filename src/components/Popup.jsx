@@ -15,10 +15,15 @@ const Popup = ({ onClose }) => {
    }, []);
 
    return (
-      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 h-full w-full">
+      <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50 h-full w-full">
+         <img
+            alt="background"
+            src={PopupBg}
+            className="absolute inset-0 w-full h-auto object-cover shadow-lg z-0"
+         />
          <div
-            className="p-6 w-full h-full rounded shadow-lg relative"
-            style={{ backgroundImage: `url(${PopupBg})` }}
+            className="p-6 w-full h-full rounded shadow-lg relative "
+            //style={{ backgroundImage: `url(${PopupBg})` }}
          >
             <h2 className="text-4xl font-semibold mb-4">Boosts</h2>
             <div className="flex justify-between flex-col ">
