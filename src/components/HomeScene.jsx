@@ -1,5 +1,6 @@
-import HomeImage from "../assets/Home.png";
-import HomeGif from "../assets/Home.gif";
+//import HomeImage from "../assets/Home.png";
+//import HomeGif from "../assets/Home.gif";
+import HomeGif from "../assets/bedroom_bg.webp";
 import HomeCharacter from "../assets/characterHome.png";
 
 import { Link } from "react-router-dom";

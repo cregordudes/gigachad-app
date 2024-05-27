@@ -1,19 +1,30 @@
 import { Link } from "react-router-dom";
-import GymImage from "../assets/Gym1.gif";
-import GymCharacter from "../assets/characterGym.png";
+//import GymImage from "../assets/Gym1.gif";
+import GymImage from "../assets/gym_bg.webp";
+//import GymCharacter from "../assets/characterGym.png";
+import HomeCharacter from "../assets/characterHome.png";
+
 import BgImage from "../assets/page_bg.png";
-import { BackButton } from "@twa-dev/sdk/react";
 
 const Gym = () => {
    return (
       <div className="relative" style={{ backgroundImage: `${BgImage}` }}>
-         <span className="font-bold text-4xl text-green-400 absolute top-56 right-10">
+         {/*<span className="font-bold text-4xl text-green-400 absolute top-56 right-10">
             LVL 3
          </span>
          <img
             src={GymCharacter}
             alt="chad"
             className="absolute bottom-56 left-44"
+            loading="lazy"
+         />*/}
+         <span className="font-bold text-4xl text-green-400 absolute top-[310px] left-[230px]">
+            LVL 3
+         </span>
+         <img
+            src={HomeCharacter}
+            alt="chad"
+            className="w-[220px] absolute top-[340px] left-[165px]"
             loading="lazy"
          />
 
