@@ -49,7 +49,7 @@ const Navbar = () => {
                                  className="w-full h-auto object-cover"
                                  loading="lazy"
                               />
-                              <span>{item.name}</span>
+                              <span className="text-gray-400">{item.name}</span>
                            </Link>
                         </li>
                         <div className="w-1 h-5 bg-[#424C4D]" />

@@ -16,10 +16,7 @@ const ProgressBar = ({ title, currentLevel, maxLevel }) => {
 
    return (
       <div className="w-full max-w-xl mx-auto px-4">
-         <div
-            className="flex justify-between  text-sm text-slate-400 font-bold"
-            style={{ fontFamily: "Press Start 2P, sans-serif" }}
-         >
+         <div className="flex justify-between text-sm text-slate-400 font-bold">
             <span>{title}</span>
             <span>
                {currentLevel}/{maxLevel}

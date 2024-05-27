@@ -6,7 +6,7 @@ const EnergyBar = ({ currentLevel, maxLevel }) => {
 
    return (
       <div className="w-full max-w-xl mx-auto px-4">
-         <div className="flex justify-between  text-white text-lg font-bold">
+         <div className="flex justify-between  text-white font-bold">
             <span className="text-sm text-slate-400">Energy</span>
             <span className="text-sm text-slate-400">
                {currentLevel.toFixed(1)}/1

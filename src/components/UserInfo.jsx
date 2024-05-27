@@ -3,7 +3,8 @@ import Popup from "./Popup";
 //import ProgressBar from "./ProgressBar.jsx";
 import ProgressBar from "./ProgressBodyWealth.jsx";
 import { useLocation } from "react-router-dom";
-import Boosts from "../assets/boostIcon.svg";
+//import Boosts from "../assets/boostIcon.svg";
+import Boosts from "../assets/boostSelect.svg";
 import EnergyBar from "./EnergyBar.jsx";
 
 const UserInfo = () => {
@@ -25,7 +26,7 @@ const UserInfo = () => {
          {pathname === "/gigachad-app/" ||
          pathname == "/gigachad-app/tap" ? null : (
             <>
-               <div className="w-full absolute top-0 left-0 flex justify-around items-center z-10  bg-gray-900 bg-opacity-50 pb-2">
+               <div className="w-full absolute top-0 left-0 flex justify-around items-center z-50  bg-gray-900 bg-opacity-75 py-2">
                   <div className="flex flex-col justify-start h-full w-2/3">
                      <EnergyBar
                         currentLevel={currentEnergy}
@@ -44,24 +45,19 @@ const UserInfo = () => {
                         title={"Wealth"}
                      />
                   </div>
-                  <div className="flex justify-center">
+                  <div className="flex flex-col items-center justify-center">
+                     <span className="font-bold text-xl text-green-500">
+                        1800 $GIGA
+                     </span>
                      <img
                         onClick={togglePopup}
                         alt="boosts"
                         src={Boosts}
-                        className="w-full h-auto cursor-pointer"
+                        className="w-3/4 h-auto cursor-pointer"
                      />
                   </div>
                </div>
-               {isPopupOpen && (
-                  <Popup
-                     title={"Boosts"}
-                     text={
-                        "Buy our boosts it's crucial for your gigachad token farm "
-                     }
-                     onClose={togglePopup}
-                  />
-               )}
+               {isPopupOpen && <Popup onClose={togglePopup} />}
             </>
          )}
       </>
