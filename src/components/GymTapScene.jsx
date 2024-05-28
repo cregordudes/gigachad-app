@@ -10,7 +10,7 @@ const GymTapScene = () => {
 
    useEffect(() => {
       WebApp.BackButton.show();
-      WebApp.BackButton.onClick(() => navigate("/gigachad-app/gym"));
+      WebApp.BackButton.onClick(() => navigate("/gym"));
 
       return () => {
          WebApp.BackButton.hide();

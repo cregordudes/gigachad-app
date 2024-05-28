@@ -5,7 +5,7 @@ const ErrorPage = () => {
    const navigate = useNavigate();
 
    useEffect(() => {
-      setTimeout(() => navigate("/gigachad-app/"), 1500);
+      setTimeout(() => navigate("/"), 1500);
    }, []);
 
    return (

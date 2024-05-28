@@ -1,3 +1,5 @@
+const baseURL = import.meta.env.BASE_URL;
+
 const boosters = [
    {
       id: 1,
@@ -8,7 +10,7 @@ const boosters = [
       bonus: "1",
       cooldown: "6",
       price: 300,
-      icon: "../assets/coffeeIcon.svg",
+      icon: `${baseURL}src/assets/coffeeIcon.svg`,
    },
    {
       id: 2,
@@ -19,7 +21,7 @@ const boosters = [
       bonus: "1",
       cooldown: "6",
       price: 300,
-      icon: "/assets/sleepMaskIcon.svg",
+      icon: "./src/assets/sleepMaskIcon.svg",
    },
 
    {
@@ -31,7 +33,7 @@ const boosters = [
       bonus: "1",
       cooldown: "6",
       price: 300,
-      icon: "assets/proteinIcon.svg",
+      icon: "./src/assets/proteinIcon.svg",
    },
 ];
 

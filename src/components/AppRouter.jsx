@@ -19,7 +19,7 @@ const AppRouter = () => {
    return (
       <Suspense fallback={<LoadingPage />}>
          <Routes>
-            <Route path="/gigachad-app/" element={<Layout />}>
+            <Route path="/" element={<Layout />}>
                <Route index element={<Main />} />
                <Route path="home" element={<Home />} />
                <Route path="gym" element={<Gym />} />

@@ -34,7 +34,7 @@ const Gym = () => {
                      "
             //before:bg-[#009AE0] before:border-b-4 before:border-b-[#005791]  before:shadow-lg before:w-2 before:h-6 before:absolute before:top-2 before:left-0.5
          >
-            <Link to={"/gigachad-app/tap"} className="">
+            <Link to={"/tap"} className="">
                Start
             </Link>
          </button>
