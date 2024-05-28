@@ -1,10 +1,50 @@
 import WebApp from "@twa-dev/sdk";
 import { useEffect } from "react";
 import PopupBg from "../assets/popupBg.svg";
-import boosters from "../utils/boosters";
+import CoffeeIcon from "../assets/coffeeIcon.svg";
+import SleepMaskIcon from "../assets/sleepMaskIcon.svg";
+import ProteinIcon from "../assets/proteinIcon.svg";
+//import boosters from "../utils/boosters";
 import Booster from "./Booster";
 
 const Popup = ({ onClose }) => {
+   const boosters = [
+      {
+         id: 1,
+         category: "Work",
+         level: 1,
+         name: "Coffee",
+         type: "energy",
+         bonus: "1",
+         cooldown: "6",
+         price: 300,
+         icon: CoffeeIcon,
+      },
+      {
+         id: 2,
+         category: "Rest",
+         level: 1,
+         name: "Sleep Mask",
+         type: "rest",
+         bonus: "1",
+         cooldown: "6",
+         price: 300,
+         icon: SleepMaskIcon,
+      },
+
+      {
+         id: 3,
+         category: "Gym",
+         level: 1,
+         name: "Protein",
+         type: "Muscle",
+         bonus: "1",
+         cooldown: "6",
+         price: 300,
+         icon: ProteinIcon,
+      },
+   ];
+
    useEffect(() => {
       WebApp.BackButton.show();
       WebApp.BackButton.onClick(() => onClose());
