@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 //import GymImage from "../assets/Gym1.gif";
-import GymImage from "../assets/gym_bg.webp";
+//import GymImage from "../assets/gym_bg.webp";
+import GymImage from "../assets/gymFHD.png";
 //import GymCharacter from "../assets/characterGym.png";
 import HomeCharacter from "../assets/characterHome.png";
 
