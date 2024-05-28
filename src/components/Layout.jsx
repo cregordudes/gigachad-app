@@ -55,7 +55,7 @@ const Layout = () => {
    return (
       <section
          id="layout"
-         className="w-full max-w-xl h-screen relative overflow-hidden"
+         className="w-full h-screen relative overflow-hidden"
          ref={swipeElement}
       >
          <Suspense
