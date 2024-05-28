@@ -9,7 +9,14 @@ import BgImage from "../assets/page_bg.png";
 
 const Gym = () => {
    return (
-      <div className="relative" style={{ backgroundImage: `${BgImage}` }}>
+      //<div className="relative" style={{ backgroundImage: `${BgImage}` }}>
+      <>
+         <img
+            src={GymImage}
+            alt="gym"
+            loading="lazy"
+            className="w-screen h-screen object-cover"
+         />
          {/*<span className="font-bold text-4xl text-green-400 absolute top-56 right-10">
             LVL 3
          </span>
@@ -40,7 +47,8 @@ const Gym = () => {
             </Link>
          </button>
          <img src={GymImage} alt="gym" loading="lazy" />
-      </div>
+         {/*</div>*/}
+      </>
    );
 };
 
