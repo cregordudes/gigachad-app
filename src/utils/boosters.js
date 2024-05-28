@@ -19,7 +19,7 @@ const boosters = [
       bonus: "1",
       cooldown: "6",
       price: 300,
-      icon: `${url("../assets/sleepMaskIcon.svg")}`,
+      icon: "/assets/sleepMaskIcon.svg",
    },
 
    {
@@ -31,7 +31,7 @@ const boosters = [
       bonus: "1",
       cooldown: "6",
       price: 300,
-      icon: "../assets/proteinIcon.svg",
+      icon: "assets/proteinIcon.svg",
    },
 ];
 
