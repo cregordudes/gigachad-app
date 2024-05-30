@@ -37,6 +37,7 @@ const TouchCounter = ({ children }) => {
    return (
       <div
          onTouchStart={handleTouchStart}
+         className="w-screen h-screen grid grid-rows-12 "
          //style={{ width: "100vw", height: "100vh", position: "absolute" }}
       >
          {touchPoints.map((point) => (
@@ -57,7 +58,7 @@ const TouchCounter = ({ children }) => {
                +1
             </span>
          ))}
-         <div className="relative flex justify-center items-center">
+         <div className="relative flex justify-center items-center row-start-1 col-start-1 row-span-5 col-span-full z-20">
             <span className="absolute top-20  text-green-400 text-8xl">
                {bodyCounter}
             </span>

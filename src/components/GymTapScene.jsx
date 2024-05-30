@@ -18,19 +18,27 @@ const GymTapScene = () => {
    }, []);
 
    return (
-      <div className="relative">
+      <div className="relative w-full h-screen grid grid-rows-12">
          <TouchCounter>
-            <img
-               src={GymCharacter}
-               alt="chad"
-               className="absolute bottom-72 left-8 -scale-x-100"
-               loading="lazy"
-            />
+            <div className="row-start-5 col-start-1 row-span-4 col-span-full w-full h-full flex justify-center z-20 ">
+               <img
+                  src={GymCharacter}
+                  alt="chad"
+                  className=" w-auto h-full pb-4 -scale-x-100 "
+                  loading="lazy"
+               />
+            </div>
 
-            <div className="absolute bottom-24 left-0 h-24 w-full bg-red-500 flex justify-center items-center text-3xl">
+            <div className="row-start-11 col-start-1 row-span-1 col-span-full pr-10 h-24 w-full bg-transparent flex justify-center text-green-400 items-center text-3xl z-20">
                Tap&nbsp;&nbsp;to&nbsp;&nbsp;run
             </div>
-            <img src={GymImage} alt="gym" loading="lazy" />
+
+            <img
+               src={GymImage}
+               alt="gym"
+               loading="lazy"
+               className="row-span-full col-span-full w-full h-full object-cover"
+            />
          </TouchCounter>
       </div>
    );

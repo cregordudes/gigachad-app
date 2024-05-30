@@ -1,6 +1,6 @@
 import WebApp from "@twa-dev/sdk";
 import { useEffect } from "react";
-import PopupBg from "../assets/popupBg.svg";
+import PopupBg from "../assets/popupBg.png";
 import CoffeeIcon from "../assets/coffeeIcon.svg";
 import SleepMaskIcon from "../assets/sleepMaskIcon.svg";
 import ProteinIcon from "../assets/proteinIcon.svg";
@@ -59,7 +59,7 @@ const Popup = ({ onClose }) => {
          <img
             alt="background"
             src={PopupBg}
-            className="absolute inset-0 w-full h-auto object-cover shadow-lg z-0"
+            className="absolute inset-0 w-screen h-screen object-cover shadow-lg z-0"
          />
          <div
             className="p-6 w-full h-full rounded shadow-lg relative "

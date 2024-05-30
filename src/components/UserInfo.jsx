@@ -25,7 +25,7 @@ const UserInfo = () => {
       <>
          {pathname === "/" || pathname == "/tap" ? null : (
             <>
-               <div className="w-full absolute top-0 left-0 flex justify-around items-center z-50  bg-gray-900 bg-opacity-75 py-2">
+               <div className="w-full absolute top-0 left-0 flex justify-evenly items-center z-50  bg-gray-900 bg-opacity-75 py-2">
                   <div className="flex flex-col justify-start h-full w-2/3">
                      <EnergyBar
                         currentLevel={currentEnergy}

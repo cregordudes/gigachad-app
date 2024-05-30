@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useRef, useState } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar.jsx";
 import UserInfo from "./UserInfo.jsx";
@@ -66,7 +66,9 @@ const Layout = () => {
             }
          >
             <UserInfo />
-            <Outlet />
+            <div id="outlet" className="minecraft">
+               <Outlet />
+            </div>
             <Navbar />
          </Suspense>
       </section>
