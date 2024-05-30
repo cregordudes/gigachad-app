@@ -12,12 +12,11 @@ const EnergyBar = ({ currentLevel, maxLevel }) => {
                {currentLevel.toFixed(1)}/1
             </span>
          </div>
-         <div className="relative rounded-b-xl rounded-t-lg  w-full h-8 border-b-2 border-b-gray-800 bg-gray-600 border-1 border-gray-800 overflow-hidden shadow-inner">
+         <div className="relative rounded-b-lg rounded-t-sm roundex w-full h-6 border-b-2 border-b-gray-800 bg-gray-600 border-1 border-gray-800 overflow-hidden">
             <div
-               className="absolute h-full bg-yellow-300 border-b-2 border-b-yellow-500 shadow-inner"
+               className="absolute h-full bg-yellow-300 border-b-2 border-b-orange-500"
                style={{
                   width: `${percentage}%`,
-                  //boxShadow: "0 0 5px #ffd700, 0 0 10px #ffd700",
                }}
             ></div>
          </div>
