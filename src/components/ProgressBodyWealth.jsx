@@ -15,7 +15,7 @@ const ProgressBar = ({ title, currentLevel, maxLevel }) => {
       ((currentLevel / maxLevel) * 100) % segmentPercentage;
 
    return (
-      <div className="w-full max-w-xl mx-auto px-4">
+      <div className="w-full max-w-xl mx-auto px-4 pb-2">
          <div className="flex justify-between text-sm text-slate-400 font-bold">
             <span>{title}</span>
             <span>

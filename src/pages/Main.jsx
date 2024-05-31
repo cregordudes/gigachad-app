@@ -7,7 +7,7 @@ const Main = () => {
          <img
             src={MainImage}
             alt="main"
-            className="w-full h-full object-cover"
+            className="w-screen h-screen object-cover"
          />
       </div>
    );

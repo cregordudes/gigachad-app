@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import WebApp from "@twa-dev/sdk";
 
 const TouchCounter = ({ children }) => {
    const [touchPoints, setTouchPoints] = useState([]);
    const [bodyCounter, setBodyCounter] = useState(0);
+   const intervalRef = useRef(null);
+   const timeoutRef = useRef(null);
 
    const handleTouchStart = (e) => {
       if (navigator.vibrate) {
          navigator.vibrate(10);
       }
 
-      //vibration for ios
+      // Vibration for iOS
       WebApp.HapticFeedback.impactOccurred("light");
 
       const touch = e.touches[0];
@@ -21,8 +23,24 @@ const TouchCounter = ({ children }) => {
       };
 
       setTouchPoints((prev) => [...prev, newTouchPoint]);
-
       setBodyCounter((prev) => prev + 1);
+
+      // Clear any existing timeouts and intervals
+      clearTimeout(timeoutRef.current);
+      clearInterval(intervalRef.current);
+
+      // Start a timeout to detect long press
+      timeoutRef.current = setTimeout(() => {
+         intervalRef.current = setInterval(() => {
+            const newTouchPointDuringHold = {
+               id: Date.now(),
+               x: touch.clientX,
+               y: touch.clientY,
+            };
+            setTouchPoints((prev) => [...prev, newTouchPointDuringHold]);
+            setBodyCounter((prev) => prev + 1);
+         }, 300);
+      }, 300); // 300ms delay to differentiate between tap and hold
 
       // Remove the touch point after a brief moment (e.g., 1 second)
       setTimeout(() => {
@@ -32,28 +50,23 @@ const TouchCounter = ({ children }) => {
       }, 1000);
    };
 
-   //console.log(bodyCounter);
+   const handleTouchEnd = () => {
+      clearTimeout(timeoutRef.current);
+      clearInterval(intervalRef.current);
+   };
 
    return (
       <div
          onTouchStart={handleTouchStart}
+         onTouchEnd={handleTouchEnd}
+         onTouchCancel={handleTouchEnd}
          className="w-screen h-screen grid grid-rows-12 "
-         //style={{ width: "100vw", height: "100vh", position: "absolute" }}
       >
          {touchPoints.map((point) => (
             <span
                key={point.id}
-               style={{
-                  position: "absolute",
-                  top: point.y,
-                  left: point.x,
-                  transform: "translate(-50%, -50%)",
-                  pointerEvents: "none",
-                  animation: "fadeOut 1s forwards",
-                  color: "#00FF72",
-                  fontSize: "24px",
-                  zIndex: 10,
-               }}
+               style={{ top: point.y, left: point.x }}
+               className="touchNumber"
             >
                +1
             </span>

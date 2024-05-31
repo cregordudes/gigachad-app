@@ -8,6 +8,7 @@ import ErrorPage from "../pages/ErrorPage.jsx";
 import Layout from "./Layout.jsx";
 import { Suspense, lazy } from "react";
 import LoadingPage from "../pages/LoadingPage.jsx";
+import Frens from "../pages/Frens.jsx";
 
 const Home = lazy(() => import("../pages/Home.jsx"));
 const Gym = lazy(() => import("../pages/Gym.jsx"));
@@ -24,6 +25,7 @@ const AppRouter = () => {
                <Route path="home" element={<Home />} />
                <Route path="gym" element={<Gym />} />
                <Route path="work" element={<Work />} />
+               <Route path="frens" element={<Frens />} />
                <Route path="tap" element={<GymTapPage />} />
             </Route>
             <Route path="*" element={<ErrorPage />} />

@@ -5,7 +5,7 @@ const EnergyBar = ({ currentLevel, maxLevel }) => {
    const percentage = currentLevel * 100;
 
    return (
-      <div className="w-full max-w-xl mx-auto px-4">
+      <div className="w-full max-w-xl mx-auto px-4 pb-2">
          <div className="flex justify-between  text-white font-bold">
             <span className="text-sm text-slate-400">Energy</span>
             <span className="text-sm text-slate-400">

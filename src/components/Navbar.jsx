@@ -11,7 +11,7 @@ const Navbar = () => {
       { id: 1, link: "gym", name: "Gym", icon: GymIcon },
       { id: 2, link: "home", name: "Rest", icon: HomeIcon },
       { id: 3, link: "work", name: "Work", icon: WorkIcon },
-      { id: 4, link: "home", name: "Frens", icon: FrensIcon },
+      { id: 4, link: "frens", name: "Frens", icon: FrensIcon },
    ];
 
    return (
@@ -30,8 +30,8 @@ const Navbar = () => {
                </div>
             </nav>
          ) : pathname == "/tap" ? null : (
-            <nav className="arcade text-capitalize w-full h-16 absolute bottom-0 left-0 flex justify-center items-end z-10">
-               <ul className="w-full flex justify-around items-end  bg-black bg-opacity-85 pt-2">
+            <nav className="arcade text-capitalize w-full  absolute bottom-0 left-0 flex justify-center items-end z-10">
+               <ul className="w-full min-h-[85px] h-[calc(100vh-800px)] max-h-[130px] flex justify-around items-center  bg-black bg-opacity-85 pt-2">
                   {navItems.map((item) => (
                      <div className="flex justify-center items-center w-[72px] h-[65px]">
                         <div className="w-1 h-5 bg-[#424C4D]  border-b-4 border-b-[#27383A]" />
