@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Popup from "./Popup";
-//import ProgressBar from "./ProgressBar.jsx";
-import ProgressBar from "./ProgressBodyWealth.jsx";
+import ProgressBar from "./ProgressBar.jsx";
+//import ProgressBar from "./ProgressBodyWealth.jsx";
 import { useLocation } from "react-router-dom";
 //import Boosts from "../assets/boostIcon.svg";
 import Boosts from "../assets/boostSelect.svg";
@@ -11,9 +11,9 @@ const UserInfo = () => {
    const { pathname } = useLocation();
 
    const [isPopupOpen, setIsPopupOpen] = useState(false);
-   const [currentBody, setCurrentBody] = useState(3.5);
-   const [currentEnergy, setCurrentEnergy] = useState(0.5);
+   const [currentBody, setCurrentBody] = useState(3);
    const [currentWealth, setCurrentWealth] = useState(5);
+   const [currentEnergy, setCurrentEnergy] = useState(0.5);
 
    const maxEnergy = 1;
    const maxLevel = 10;
@@ -26,7 +26,7 @@ const UserInfo = () => {
          {pathname === "/" || pathname == "/tap" ? null : (
             <>
                <div className="w-full absolute top-0 left-0 flex justify-evenly items-center z-50  bg-gray-900 bg-opacity-75 py-2 max-h-[25%]">
-                  <div className="flex flex-col justify-start h-full w-2/3">
+                  <div className="flex flex-col justify-start h-full w-1/2">
                      <EnergyBar
                         currentLevel={currentEnergy}
                         maxLevel={maxEnergy}

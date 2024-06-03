@@ -3,6 +3,7 @@ import React from "react";
 const EnergyBar = ({ currentLevel, maxLevel }) => {
    // Calculate the percentage of the bar to fill
    const percentage = currentLevel * 100;
+   const percentageLeft = 100 - percentage;
 
    return (
       <div className="w-full max-w-xl mx-auto px-4 pb-2">
@@ -12,13 +13,19 @@ const EnergyBar = ({ currentLevel, maxLevel }) => {
                {currentLevel.toFixed(1)}/1
             </span>
          </div>
-         <div className="relative rounded-b-lg rounded-t-sm roundex w-full h-6 border-b-2 border-b-gray-800 bg-gray-600 border-1 border-gray-800 overflow-hidden">
+         <div className="relative rounded-sm w-full h-6  overflow-hidden">
             <div
-               className="absolute h-full bg-yellow-300 border-b-2 border-b-orange-500"
+               className="absolute h-full bg-yellow-300 border-b-2 border-b-yellow-500"
                style={{
                   width: `${percentage}%`,
                }}
-            ></div>
+            />
+            <div
+               className="absolute right-0 h-full bg-gray-500 border-b-2 border-b-gray-700"
+               style={{
+                  width: `${percentageLeft}%`,
+               }}
+            />
          </div>
       </div>
    );

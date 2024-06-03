@@ -1,23 +1,35 @@
 import React from "react";
 
-const ProgressBar = ({ currentLevel, maxLevel }) => {
-   const levels = Array.from({ length: maxLevel }, (_, i) => i + 1);
+const ProgressBar = ({ title, currentLevel, maxLevel }) => {
+   // Calculate the percentage of the bar to fill
+   const percentage = (currentLevel * 100) / maxLevel;
+   const percentageLeft = 100 - percentage;
 
    return (
-      <div className="relative flex items-center w-full rounded-2xl ">
-         <div className="flex w-full rounded-2xl bg-gray-300">
-            {levels.map((level) => (
-               <div
-                  key={level}
-                  className={`relative flex-1 h-8 flex items-center justify-center p-[2px] ${
-                     level <= currentLevel
-                        ? "bg-green-500"
-                        : "bg-gray-300 rounded-xl"
-                  } ${level === currentLevel && "rounded-xl no-left-radius"}`}
-               >
-                  <span className="text-white">{level}</span>
-               </div>
-            ))}
+      <div className="w-full max-w-xl mx-auto px-4 pb-2">
+         <div className="flex justify-between  text-white font-bold">
+            <span className="text-sm text-slate-400">{title}</span>
+            <span className="text-sm text-slate-400">
+               lvl {currentLevel}/{maxLevel}
+            </span>
+         </div>
+         <div className="relative rounded-sm w-full h-6 overflow-hidden">
+            <div
+               className={`absolute h-full border-b-2  ${
+                  title === "Wealth"
+                     ? "bg-[#25DB14]  border-b-green-600"
+                     : "bg-[#D76446]  border-b-orange-700"
+               }`}
+               style={{
+                  width: `${percentage}%`,
+               }}
+            />
+            <div
+               className="absolute right-0 h-full  bg-gray-500 border-b-2 border-b-gray-700"
+               style={{
+                  width: `${percentageLeft}%`,
+               }}
+            />
          </div>
       </div>
    );

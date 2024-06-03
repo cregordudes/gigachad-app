@@ -11,6 +11,7 @@ const Frens = () => {
          <a
             className="w-auto h-auto p-4 bg-black text-white"
             href={`https://t.me/share/url?url=${url}&text=${text}`}
+            target="_blank"
          >
             Invite a friend
          </a>
