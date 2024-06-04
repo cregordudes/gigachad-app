@@ -1,54 +1,53 @@
 import { useEffect, useRef, useState } from "react";
-//import GymImage from "../assets/gymFHD.png";
-import GymVideo from "../assets/gym-bg_1.webm";
+import GymImage from "../assets/gym-bg.gif";
 import GymCharacter from "../assets/chad_character_1x.webp";
 import { Link } from "react-router-dom";
 import LoadingPage from "../pages/LoadingPage";
 
 const Gym = () => {
-   const [videoLoaded, setVideoLoaded] = useState(false);
-   const videoRef = useRef(null);
+   const [imageLoaded, setImageLoaded] = useState(false);
+   const imageRef = useRef(null);
 
-   const handleVideoLoaded = () => {
-      setVideoLoaded(true);
+   const handleImageLoaded = () => {
+      setImageLoaded(true);
    };
 
    useEffect(() => {
-      if (videoRef.current) {
-         videoRef.current.addEventListener("loadeddata", handleVideoLoaded);
+      if (imageRef.current) {
+         imageRef.current.addEventListener("load", handleImageLoaded);
       }
+
+      if (imageRef.current.complete) {
+         handleImageLoaded();
+      }
+
       return () => {
-         if (videoRef.current) {
-            videoRef.current.removeEventListener(
-               "loadeddata",
-               handleVideoLoaded
-            );
+         if (imageRef.current) {
+            imageRef.current.removeEventListener("load", handleImageLoaded);
          }
       };
    }, []);
    return (
       <div className="page-wrapper">
-         {!videoLoaded && <LoadingPage />}
+         {!imageLoaded && <LoadingPage />}
 
          <div
             className={`relative w-full h-screen grid grid-rows-12  ${
-               videoLoaded ? "" : "hidden"
+               imageLoaded ? "" : "hidden"
             }`}
          >
             <div className="relative w-full h-screen grid grid-rows-12">
                <div className="row-span-full col-span-full w-screen h-screen">
-                  <video
-                     ref={videoRef}
-                     autoPlay
-                     muted
-                     loop
-                     controls={false}
-                     className="w-screen h-screen object-cover sm:object-right"
-                     src={GymVideo}
+                  <img
+                     ref={imageRef}
+                     src={GymImage}
+                     alt="gym"
+                     loading="lazy"
+                     className="w-screen h-screen object-cover"
                   />
                </div>
 
-               <div className="row-start-6 col-start-1 row-span-5 col-span-full flex items-end justify-center pb-4">
+               <div className="row-start-6 col-start-1 row-span-5 col-span-full flex items-end justify-center pb-4 z-10">
                   <img
                      src={GymCharacter}
                      alt="chad"

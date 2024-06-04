@@ -13,7 +13,7 @@ const ProgressBar = ({ title, currentLevel, maxLevel }) => {
                lvl {currentLevel}/{maxLevel}
             </span>
          </div>
-         <div className="relative rounded-sm w-full h-6 overflow-hidden">
+         <div className="relative rounded-sm w-full h-3 overflow-hidden">
             <div
                className={`absolute h-full border-b-2  ${
                   title === "Wealth"

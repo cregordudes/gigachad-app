@@ -13,7 +13,7 @@ const EnergyBar = ({ currentLevel, maxLevel }) => {
                {currentLevel.toFixed(1)}/1
             </span>
          </div>
-         <div className="relative rounded-sm w-full h-6  overflow-hidden">
+         <div className="relative rounded-sm w-full h-4  overflow-hidden">
             <div
                className="absolute h-full bg-yellow-300 border-b-2 border-b-yellow-500"
                style={{

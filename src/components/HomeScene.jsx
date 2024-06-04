@@ -1,53 +1,65 @@
 import { useState, useRef, useEffect } from "react";
-//import HomeGif from "../assets/homeFHD.png";
-import HomeVideo from "../assets/bedroom-bg-v2.webm";
+import HomeImage from "../assets/bedroom-bg.gif";
 import HomeCharacter from "../assets/chad_character_1x.webp";
 import LoadingPage from "../pages/LoadingPage";
 
 import { Link } from "react-router-dom";
+import { useUserStore } from "../stores/userStore";
+import { useSendEvent } from "../api/axios";
 
 const HomeScene = () => {
-   const [videoLoaded, setVideoLoaded] = useState(false);
-   const videoRef = useRef(null);
+   const { currentUser, userStatistic, setUserStatistic } = useUserStore();
+   const sendEvent = useSendEvent();
 
-   const handleVideoLoaded = () => {
-      setVideoLoaded(true);
+   const [imageLoaded, setImageLoaded] = useState(false);
+   const imageRef = useRef(null);
+
+   const handleImageLoaded = () => {
+      setImageLoaded(true);
    };
 
    useEffect(() => {
-      if (videoRef.current) {
-         videoRef.current.addEventListener("loadeddata", handleVideoLoaded);
+      if (imageRef.current) {
+         imageRef.current.addEventListener("load", handleImageLoaded);
       }
+
       return () => {
-         if (videoRef.current) {
-            videoRef.current.removeEventListener(
-               "loadeddata",
-               handleVideoLoaded
-            );
+         if (imageRef.current) {
+            imageRef.current.removeEventListener("load", handleImageLoaded);
          }
       };
-   }, []);
+   }, [imageRef.current]);
+
+   const handleSendEvent = () => {
+      sendEvent.mutateAsync(
+         {
+            telegram_user_id: currentUser.telegram.id,
+            event: "GYM_START",
+         },
+         {
+            onSuccess: (data) => {
+               console.log(data);
+               setUserStatistic(data.data);
+            },
+            onError: (error) => {
+               console.log(error);
+            },
+         }
+      );
+   };
    return (
       <div className="page-wrapper">
-         {!videoLoaded && <LoadingPage />}
+         {!imageLoaded && <LoadingPage />}
 
-         <div
-            className={`relative w-full h-screen grid grid-rows-12  ${
-               videoLoaded ? "" : "hidden"
-            }`}
-         >
+         <div className={`relative w-full h-screen grid grid-rows-12  `}>
             <div className="relative w-full h-screen grid grid-rows-12">
-               <div className="row-span-full col-span-full w-screen h-screen">
-                  <video
-                     ref={videoRef}
-                     autoPlay
-                     muted
-                     loop
-                     controls={false}
-                     className="w-screen h-screen object-cover sm:object-right"
-                     src={HomeVideo}
-                  />
-               </div>
+               <img
+                  ref={imageRef}
+                  src={HomeImage}
+                  alt="home"
+                  loading="lazy"
+                  className="row-span-full col-span-full w-screen h-screen object-cover"
+               />
 
                <div className="row-start-6 sm:row-start-8 row-span-5 col-start-1 col-span-1 flex items-end justify-end pb-0">
                   <img
@@ -62,6 +74,7 @@ const HomeScene = () => {
                      className="arcade absolute top-[68%] w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791] text-[#005791]
                    after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-6 after:absolute after:top-[10px] after:-right-2 
                      "
+                     onClick={handleSendEvent}
                   >
                      3H 24MIN
                   </button>
