@@ -3,16 +3,17 @@ import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar.jsx";
 import UserInfo from "./UserInfo.jsx";
 import LoadingPage from "../pages/LoadingPage.jsx";
+import { useUserStore } from "../stores/userStore.js";
 
 const Layout = () => {
    const swipeElement = useRef(null);
+
+   const { currentUser } = useUserStore();
 
    const [startY, setStartY] = useState(0);
    const [offsetY, setOffsetY] = useState(0);
 
    useEffect(() => {
-      console.log("useEffect");
-
       const element = swipeElement.current;
 
       const handleTouchStart = (e) => {
@@ -51,7 +52,10 @@ const Layout = () => {
       };
    }, [startY]);
 
-   // At the end I monitor whether offsetX has changed or not, if it has, I call the hook again and enable preventDefault()
+   useEffect(() => {
+      console.log("currentUser:", currentUser);
+   }, [currentUser]);
+
    return (
       <section
          id="layout"
@@ -66,7 +70,7 @@ const Layout = () => {
             }
          >
             <UserInfo />
-            <div id="outlet" className="minecraft">
+            <div id="outlet" className="minecraft relative z-0">
                <Outlet />
             </div>
             <Navbar />

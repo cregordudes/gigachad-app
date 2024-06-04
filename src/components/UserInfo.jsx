@@ -58,7 +58,7 @@ const UserInfo = () => {
                         <span>1800</span>
                      </p>
                      <img
-                        onClick={togglePopup}
+                        //onClick={togglePopup}
                         alt="boosts"
                         src={Boosts}
                         className="w-3/4 max-w-[162px]  cursor-pointer"
