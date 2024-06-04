@@ -39,6 +39,7 @@ const WorkScene = () => {
                <video
                   ref={videoRef}
                   autoPlay
+                  playsInline
                   muted
                   loop
                   controls={false}

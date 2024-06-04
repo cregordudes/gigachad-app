@@ -21,6 +21,24 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+*::-webkit-media-controls {
+  display: none !important;
+  -webkit-appearance: none;
+}
+
+*::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  -webkit-appearance: none;
+
+}
+
+*::-webkit-media-controls-panel {
+  display: none!important;
+  -webkit-appearance: none;
+}
+
+
+
 a {
   font-weight: 500;
   text-decoration: inherit;
@@ -64,6 +82,7 @@ body {
   font-size: 24px;
   z-index: 10;
 }
+
 
 
 @keyframes fadeOutUp {
@@ -224,10 +243,10 @@ button {
 button:hover {
   /*border-color: #646cff;*/
 }
-button:focus,
+/*button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
-}
+}*/
 
 /*@media (prefers-color-scheme: light) {
   :root {
