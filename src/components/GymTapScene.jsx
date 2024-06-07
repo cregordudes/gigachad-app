@@ -26,6 +26,7 @@ const GymTapScene = () => {
             },
             onError: (error) => {
                console.log(error);
+               navigate("/gym");
             },
          }
       );

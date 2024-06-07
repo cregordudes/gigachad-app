@@ -41,7 +41,7 @@ const Gym = () => {
 
    return (
       <div className="page-wrapper">
-         {!imageLoaded && <LoadingPage />}
+         {(!imageLoaded || !currentUser.user) && <LoadingPage />}
 
          <div
             className={`relative w-full h-screen grid grid-rows-12  ${
@@ -69,7 +69,7 @@ const Gym = () => {
                </div>
 
                <div className="row-start-9 col-start-1 row-span-1 col-span-full flex items-center justify-start pr-10 z-20">
-                  {currentUser?.user.state === "GYM_START" ? (
+                  {currentUser?.user?.state === "GYM_START" ? (
                      <button
                         className="arcade absolute top-[68%] w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791] text-white
                    after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-6 after:absolute after:top-[10px] after:-right-2 
@@ -78,8 +78,8 @@ const Gym = () => {
                      >
                         Claim
                      </button>
-                  ) : currentUser?.user.state === "REST" ||
-                    currentUser?.user.state === "WORK" ? (
+                  ) : currentUser?.user?.state === "REST" ||
+                    currentUser?.user?.state === "WORK" ? (
                      <button
                         className="arcade absolute top-[68%] w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791] text-[#005791]
                    after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-6 after:absolute after:top-[10px] after:-right-2 
@@ -99,15 +99,6 @@ const Gym = () => {
                         </Link>
                      </button>
                   )}
-
-                  {/*<button
-                     className="relative arcade w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791]
-                   after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-6 after:absolute after:top-[10px] after:-right-2 text-white
-                     "
-                  >
-                    
-                     <div className="absolute top-[10px] -right-2 w-2 h-6 bg-[#009AE0] shadow-lg"></div>
-                  </button>*/}
                </div>
             </div>
          </div>

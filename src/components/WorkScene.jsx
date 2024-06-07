@@ -18,15 +18,19 @@ const WorkScene = () => {
    };
 
    useEffect(() => {
-      const minutes = moment(currentUser?.estimation.seconds_left.rest).format(
-         "mm"
+      if (!currentUser?.estimation?.seconds_left) {
+         return;
+      }
+
+      const minutes = moment(currentUser?.estimation?.seconds_left.rest).format(
+         "m"
       );
-      const hours = moment(currentUser?.estimation.seconds_left.rest).format(
+      const hours = moment(currentUser?.estimation?.seconds_left.rest).format(
          "H"
       );
 
       setTimeLeft(`${hours}H ${minutes}MIN`);
-   }, [currentUser?.estimation.seconds_left.rest]);
+   }, [currentUser?.estimation?.seconds_left]);
 
    useEffect(() => {
       setTimeout(() => {
@@ -54,7 +58,9 @@ const WorkScene = () => {
 
    return (
       <div className="page-wrapper">
-         {!imageLoaded && <LoadingPage />}
+         {(!imageLoaded || !currentUser.user || !currentUser.estimation) && (
+            <LoadingPage />
+         )}
 
          <div
             className={`relative w-full h-screen grid grid-rows-12 ${
@@ -104,8 +110,8 @@ const WorkScene = () => {
                      Claim
                      <div className="absolute top-[10px] -right-2 w-2 h-6 bg-[#009AE0] shadow-lg"></div>
                   </button>
-               ) : currentUser?.user.state === "WORK" &&
-                 currentUser?.estimation.seconds_left.work > 0 ? (
+               ) : currentUser?.user?.state === "WORK" &&
+                 currentUser?.estimation?.seconds_left?.work > 0 ? (
                   <button
                      className="arcade absolute top-[68%] w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791] text-[#005791]
                    after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-6 after:absolute after:top-[10px] after:-right-2 
@@ -113,8 +119,8 @@ const WorkScene = () => {
                   >
                      {timeLeft}
                   </button>
-               ) : currentUser?.user.state === "REST" ||
-                 currentUser?.user.state === "GYM" ? (
+               ) : currentUser?.user?.state === "REST" ||
+                 currentUser?.user?.state === "GYM" ? (
                   <button
                      className="arcade absolute top-[68%] w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791] text-[#005791]
                    after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-6 after:absolute after:top-[10px] after:-right-2 
