@@ -5,6 +5,7 @@ import UserInfo from "./UserInfo.jsx";
 import LoadingPage from "../pages/LoadingPage.jsx";
 import { useUserStore } from "../stores/userStore.js";
 import { useSendEvent } from "../api/axios";
+import WebApp from "@twa-dev/sdk";
 
 const Layout = () => {
    const swipeElement = useRef(null);
@@ -62,7 +63,9 @@ const Layout = () => {
       if (!currentUser) return;
       sendEvent.mutate(
          {
-            telegram_user_id: currentUser?.user.telegram.id,
+            telegram_user_id:
+               currentUser?.user?.telegram.id ||
+               WebApp?.initDataUnsafe?.user?.id,
             event: "CHECK",
          },
          {

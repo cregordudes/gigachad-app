@@ -12,7 +12,7 @@ function App() {
       WebApp?.enableClosingConfirmation();
       console.log("WEB APP USER: ", WebApp?.initDataUnsafe?.user);
 
-      if (currentUser?.user.telegram.id) {
+      if (!currentUser?.user?.telegram?.id) {
          setCurrentUser(WebApp?.initDataUnsafe?.user);
       }
 
@@ -42,7 +42,7 @@ function App() {
       }
 
       console.log("WEB APP PLATFORM DATA:", WebApp?.platform);
-   }, [WebApp?.initDataUnsafe?.user, currentUser?.user.telegram.id]);
+   }, [WebApp?.initDataUnsafe?.user?.id, currentUser?.user?.telegram?.id]);
 
    //useEffect(() => {
    //   WebApp.onEvent("viewportChanged", (e) => {

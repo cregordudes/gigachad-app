@@ -18,15 +18,18 @@ const HomeScene = () => {
       setImageLoaded(true);
    };
    useEffect(() => {
+      if (!currentUser?.estimation?.seconds_left) {
+         return;
+      }
       const minutes = moment(currentUser?.estimation.seconds_left.rest).format(
-         "mm"
+         "m"
       );
       const hours = moment(currentUser?.estimation.seconds_left.rest).format(
          "H"
       );
 
       setTimeLeft(`${hours}H ${minutes}MIN`);
-   }, [currentUser?.estimation.seconds_left.rest]);
+   }, [currentUser?.estimation?.seconds_left]);
 
    useEffect(() => {
       const imgElement = imageRef.current;
@@ -71,7 +74,9 @@ const HomeScene = () => {
 
    return (
       <div className="page-wrapper">
-         {!imageLoaded && <LoadingPage />}
+         {(!imageLoaded || !currentUser.user || !currentUser.estimation) && (
+            <LoadingPage />
+         )}
 
          <div className={`relative w-full h-screen grid grid-rows-12  `}>
             <div className="relative w-full h-screen grid grid-rows-12">
@@ -92,8 +97,8 @@ const HomeScene = () => {
                   />
                </div>
                <div className="row-start-9 col-start-1 row-span-1 col-span-full flex items-center justify-start pr-10 z-20">
-                  {currentUser?.user.state === "REST" &&
-                  currentUser?.estimation.seconds_left.rest === 0 ? (
+                  {currentUser?.user?.state === "REST" &&
+                  currentUser?.estimation?.seconds_left?.rest === 0 ? (
                      <button
                         className="arcade absolute top-[68%] w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791] text-[#005791]
                    after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-6 after:absolute after:top-[10px] after:-right-2 
@@ -102,8 +107,8 @@ const HomeScene = () => {
                      >
                         Claim
                      </button>
-                  ) : currentUser?.user.state === "REST" &&
-                    currentUser?.estimation.seconds_left.rest > 0 ? (
+                  ) : currentUser?.user?.state === "REST" &&
+                    currentUser?.estimation?.seconds_left?.rest > 0 ? (
                      <button
                         className="arcade absolute top-[68%] w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791] text-[#005791]
                    after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-6 after:absolute after:top-[10px] after:-right-2 
