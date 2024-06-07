@@ -2,12 +2,19 @@ import { useEffect } from "react";
 import "./App.css";
 import AppRouter from "./components/AppRouter";
 import WebApp from "@twa-dev/sdk";
+import { useUserStore } from "./stores/userStore";
 
 function App() {
+   const { currentUser, setCurrentUser } = useUserStore();
+
    useEffect(() => {
       WebApp?.expand();
       WebApp?.enableClosingConfirmation();
       console.log("WEB APP USER: ", WebApp?.initDataUnsafe?.user);
+
+      if (currentUser?.user.telegram.id) {
+         setCurrentUser(WebApp?.initDataUnsafe?.user);
+      }
 
       //if (!WebApp?.initDataUnsafe?.user) {
       //   close();
@@ -35,7 +42,7 @@ function App() {
       }
 
       console.log("WEB APP PLATFORM DATA:", WebApp?.platform);
-   }, []);
+   }, [WebApp?.initDataUnsafe?.user, currentUser?.user.telegram.id]);
 
    //useEffect(() => {
    //   WebApp.onEvent("viewportChanged", (e) => {

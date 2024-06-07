@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Popup from "./Popup";
 import ProgressBar from "./ProgressBar.jsx";
 import { useLocation } from "react-router-dom";
-import ProfileIcon from "../assets/profileIconFull.svg";
+import ProfileIcon from "../assets/profileIcon.svg";
 import NoBoostIcon from "../assets/noBoostIcon.svg";
 import EnergyBar from "./EnergyBar.jsx";
 import { useUserStore } from "../stores/userStore.js";
