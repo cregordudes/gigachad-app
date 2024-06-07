@@ -10,7 +10,7 @@ const ProgressBar = ({ title, currentLevel, maxLevel }) => {
          <div className="flex justify-between  text-white font-bold">
             <span className="text-sm text-slate-400">{title}</span>
             <span className="text-sm text-slate-400">
-               lvl {currentLevel}/{maxLevel}
+               {currentLevel}/{maxLevel}
             </span>
          </div>
          <div className="relative rounded-sm w-full h-3 overflow-hidden">

@@ -17,8 +17,10 @@ export const useUserStore = create(
       (set) => ({
          currentUser: null,
          userStatistic: null,
+         userLimits: null,
          setCurrentUser: (user) => set({ currentUser: user }),
          setUserStatistic: (user) => set({ userStatistic: user }),
+         setUserLimits: (user) => set({ userLimits: user }),
       }),
       {
          name: "user-storage",

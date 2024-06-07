@@ -4,11 +4,13 @@ import Navbar from "./Navbar.jsx";
 import UserInfo from "./UserInfo.jsx";
 import LoadingPage from "../pages/LoadingPage.jsx";
 import { useUserStore } from "../stores/userStore.js";
+import { useSendEvent } from "../api/axios";
 
 const Layout = () => {
    const swipeElement = useRef(null);
 
-   const { currentUser } = useUserStore();
+   const { currentUser, setCurrentUser } = useUserStore();
+   const sendEvent = useSendEvent();
 
    const [startY, setStartY] = useState(0);
    const [offsetY, setOffsetY] = useState(0);
@@ -55,6 +57,25 @@ const Layout = () => {
    useEffect(() => {
       console.log("currentUser:", currentUser);
    }, [currentUser]);
+
+   useEffect(() => {
+      if (!currentUser) return;
+      sendEvent.mutate(
+         {
+            telegram_user_id: currentUser?.user.telegram.id,
+            event: "CHECK",
+         },
+         {
+            onSuccess: (data) => {
+               console.log(data);
+               setCurrentUser(data.data);
+            },
+            onError: (error) => {
+               console.log(error);
+            },
+         }
+      );
+   }, []);
 
    return (
       <section

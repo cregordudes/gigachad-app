@@ -4,13 +4,36 @@ import GymCharacter from "../assets/training.gif";
 import TouchCounter from "../components/TouchCounter";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useSendEvent } from "../api/axios";
+import { useUserStore } from "../stores/userStore";
 
 const GymTapScene = () => {
    const navigate = useNavigate();
+   const sendEvent = useSendEvent();
+   const { currentUser, setCurrentUser } = useUserStore();
+
+   const handleExit = () => {
+      sendEvent.mutate(
+         {
+            telegram_user_id: currentUser?.user.telegram.id,
+            event: "GYM_STOP",
+         },
+         {
+            onSuccess: (data) => {
+               console.log(data);
+               setCurrentUser(data.data);
+               navigate("/gym");
+            },
+            onError: (error) => {
+               console.log(error);
+            },
+         }
+      );
+   };
 
    useEffect(() => {
       WebApp.BackButton.show();
-      WebApp.BackButton.onClick(() => navigate("/gym"));
+      WebApp.BackButton.onClick(() => handleExit());
 
       return () => {
          WebApp.BackButton.hide();
@@ -29,7 +52,7 @@ const GymTapScene = () => {
                />
             </div>
 
-            <div className="row-start-11 col-start-1 row-span-1 col-span-full pr-10 h-24 w-full bg-transparent flex justify-center text-green-400 items-center text-3xl z-20">
+            <div className="row-start-11 col-start-1 row-span-1 col-span-full  h-24 w-full bg-transparent flex justify-center text-green-400 items-center text-3xl z-20">
                Tap&nbsp;&nbsp;to&nbsp;&nbsp;run
             </div>
 

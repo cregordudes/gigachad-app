@@ -1,22 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Popup from "./Popup";
 import ProgressBar from "./ProgressBar.jsx";
-//import ProgressBar from "./ProgressBodyWealth.jsx";
 import { useLocation } from "react-router-dom";
-//import Boosts from "../assets/boostIcon.svg";
-import Boosts from "../assets/boostSelect.svg";
+import ProfileIcon from "../assets/profileIconFull.svg";
+import NoBoostIcon from "../assets/noBoostIcon.svg";
 import EnergyBar from "./EnergyBar.jsx";
+import { useUserStore } from "../stores/userStore.js";
+import { useGetConfig } from "../api/axios.js";
 
 const UserInfo = () => {
    const { pathname } = useLocation();
+   const { currentUser, setUserLimits } = useUserStore();
+
+   const { data: configData, isConfigLoading } = useGetConfig(
+      currentUser?.user?.stats?.level ?? 0
+   );
+
+   useEffect(() => {
+      if (!isConfigLoading) {
+         setUserLimits(configData);
+      }
+   }, [configData, isConfigLoading]);
 
    const [isPopupOpen, setIsPopupOpen] = useState(false);
-   const [currentBody, setCurrentBody] = useState(3);
-   const [currentWealth, setCurrentWealth] = useState(5);
-   const [currentEnergy, setCurrentEnergy] = useState(0.5);
+   //const [currentBody, setCurrentBody] = useState(1000);
+   //const [currentWealth, setCurrentWealth] = useState(1000);
+   //const [currentEnergy, setCurrentEnergy] = useState(200);
 
-   const maxEnergy = 1;
-   const maxLevel = 10;
+   const maxEnergy = 200;
+   const maxLevel = 1000;
 
    const togglePopup = () => {
       setIsPopupOpen(!isPopupOpen);
@@ -25,27 +37,26 @@ const UserInfo = () => {
       <>
          {pathname === "/" || pathname == "/tap" ? null : (
             <>
-               <div className="w-full absolute top-0 left-0 flex justify-evenly items-center z-50  bg-gray-900 bg-opacity-75 py-2 max-h-[25%]">
+               <div className="w-full absolute top-0 left-0 flex justify-evenly items-center z-50  bg-gray-900 bg-opacity-75 py-1 max-h-[160px]">
                   <div className="flex flex-col justify-start h-full w-1/2">
                      <EnergyBar
-                        currentLevel={currentEnergy}
-                        maxLevel={maxEnergy}
+                        currentLevel={currentUser?.user?.stats.energy}
+                        maxLevel={configData?.limits.energy || maxEnergy}
                      />
 
                      <ProgressBar
-                        currentLevel={currentBody}
-                        maxLevel={maxLevel}
+                        currentLevel={currentUser?.user?.stats.body}
+                        maxLevel={configData?.limits.body || maxLevel}
                         title={"Body"}
                      />
 
                      <ProgressBar
-                        currentLevel={currentWealth}
-                        maxLevel={maxLevel}
+                        currentLevel={currentUser?.user?.stats.wealth}
+                        maxLevel={configData?.limits.wealth || maxLevel}
                         title={"Wealth"}
                      />
-                  </div>
-                  <div className="flex flex-col items-center justify-center w-1/3">
-                     <p className="font-bold text-xl text-green-500 w-1/2 flex justify-between">
+
+                     <div className="font-bold text-xl text-green-500 flex items-start justify-evenly w-[60%] px-4">
                         <svg
                            xmlns="http://www.w3.org/2000/svg"
                            viewBox="0 0 24 24"
@@ -56,13 +67,24 @@ const UserInfo = () => {
                         </svg>
 
                         <span>1800</span>
-                     </p>
+                     </div>
+                  </div>
+                  <div className="flex flex-col items-center justify-center w-1/3 gap-2">
                      <img
                         //onClick={togglePopup}
-                        alt="boosts"
-                        src={Boosts}
-                        className="w-3/4 max-w-[162px]  cursor-pointer"
+                        alt="profile"
+                        src={ProfileIcon}
+                        className="w-[100px] h-auto max-w-[120px]  cursor-pointer"
                      />
+
+                     <div className="bg-[#932828] border-b-2 border-b-[#4C0B0B] w-[100px] flex items-center justify-evenly p-1">
+                        <img
+                           alt="no boost"
+                           src={NoBoostIcon}
+                           className="w-auto h-auto max-w-[162px] cursor-pointer"
+                        />
+                        <span className="font-bold text-xs">NO BOOST</span>
+                     </div>
                   </div>
                </div>
                {isPopupOpen && <Popup onClose={togglePopup} />}

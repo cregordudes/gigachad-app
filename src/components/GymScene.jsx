@@ -3,30 +3,42 @@ import GymImage from "../assets/gym-bg.gif";
 import GymCharacter from "../assets/chad_character_1x.webp";
 import { Link } from "react-router-dom";
 import LoadingPage from "../pages/LoadingPage";
+import { useSendEvent } from "../api/axios";
+import { useUserStore } from "../stores/userStore";
 
 const Gym = () => {
+   const { currentUser, setCurrentUser } = useUserStore();
+   const sendEvent = useSendEvent();
    const [imageLoaded, setImageLoaded] = useState(false);
-   const imageRef = useRef(null);
 
    const handleImageLoaded = () => {
       setImageLoaded(true);
    };
 
    useEffect(() => {
-      if (imageRef.current) {
-         imageRef.current.addEventListener("load", handleImageLoaded);
-      }
-
-      if (imageRef.current.complete) {
-         handleImageLoaded();
-      }
-
-      return () => {
-         if (imageRef.current) {
-            imageRef.current.removeEventListener("load", handleImageLoaded);
-         }
-      };
+      setTimeout(() => {
+         setImageLoaded(true);
+      }, 2000);
    }, []);
+
+   const handleSendEvent = (event) => {
+      sendEvent.mutateAsync(
+         {
+            telegram_user_id: currentUser?.user?.telegram.id,
+            event: event === "start" ? "GYM_START" : "GYM_STOP",
+         },
+         {
+            onSuccess: (data) => {
+               console.log(data);
+               setCurrentUser(data.data);
+            },
+            onError: (error) => {
+               console.log(error);
+            },
+         }
+      );
+   };
+
    return (
       <div className="page-wrapper">
          {!imageLoaded && <LoadingPage />}
@@ -39,10 +51,10 @@ const Gym = () => {
             <div className="relative w-full h-screen grid grid-rows-12">
                <div className="row-span-full col-span-full w-screen h-screen">
                   <img
-                     ref={imageRef}
                      src={GymImage}
                      alt="gym"
                      loading="lazy"
+                     onLoad={handleImageLoaded}
                      className="w-screen h-screen object-cover"
                   />
                </div>
@@ -56,13 +68,46 @@ const Gym = () => {
                   />
                </div>
 
-               <div className="row-start-10 col-start-1 row-span-1 col-span-full flex items-center justify-start pr-10">
-                  <button className="arcade w-[80px] flex justify-center rounded-none border-transparent py-2 cursor-pointer font-medium text-lg bg-[#009AE0] border-b-4 border-b-[#005791] text-white relative">
-                     <Link to={"/tap"} className="">
-                        Start
-                     </Link>
+               <div className="row-start-9 col-start-1 row-span-1 col-span-full flex items-center justify-start pr-10 z-20">
+                  {currentUser?.user.state === "GYM_START" ? (
+                     <button
+                        className="arcade absolute top-[68%] w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791] text-white
+                   after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-6 after:absolute after:top-[10px] after:-right-2 
+                     "
+                        onClick={() => handleSendEvent("stop")}
+                     >
+                        Claim
+                     </button>
+                  ) : currentUser?.user.state === "REST" ||
+                    currentUser?.user.state === "WORK" ? (
+                     <button
+                        className="arcade absolute top-[68%] w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791] text-[#005791]
+                   after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-6 after:absolute after:top-[10px] after:-right-2 
+                     "
+                     >
+                        Busy
+                     </button>
+                  ) : (
+                     <button
+                        className="arcade absolute top-[68%] w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791] text-white
+                   after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-6 after:absolute after:top-[10px] after:-right-2
+                     "
+                        onClick={() => handleSendEvent("start")}
+                     >
+                        <Link to={"/tap"} className="">
+                           Start
+                        </Link>
+                     </button>
+                  )}
+
+                  {/*<button
+                     className="relative arcade w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791]
+                   after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-6 after:absolute after:top-[10px] after:-right-2 text-white
+                     "
+                  >
+                    
                      <div className="absolute top-[10px] -right-2 w-2 h-6 bg-[#009AE0] shadow-lg"></div>
-                  </button>
+                  </button>*/}
                </div>
             </div>
          </div>

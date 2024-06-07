@@ -1,16 +1,18 @@
 import React from "react";
+import RunIcon from "../assets/runIcon.svg";
 
-const EnergyBar = ({ currentLevel, maxLevel }) => {
+const TapEnergyBar = ({ currentLevel, maxLevel }) => {
    const percentage = (currentLevel * 100) / maxLevel;
    const percentageLeft = 100 - percentage;
 
    return (
       <div className="w-full max-w-xl mx-auto px-4 pb-2">
-         <div className="flex justify-between  text-white font-bold">
-            <span className="text-sm text-slate-400">Energy</span>
-            <span className="text-sm text-slate-400">
-               {currentLevel}/{maxLevel}
-            </span>
+         <div className="flex justify-between  text-white font-bold p-2 items-baseline">
+            <img src={RunIcon} alt="runFlag" className="" />
+            <div className="text-lg text-slate-400">
+               <span className="text-red-500">{currentLevel} </span> /
+               <span className="text-green-500"> {maxLevel}</span>
+            </div>
          </div>
          <div className="relative rounded-sm w-full h-4  overflow-hidden">
             <div
@@ -30,4 +32,4 @@ const EnergyBar = ({ currentLevel, maxLevel }) => {
    );
 };
 
-export default EnergyBar;
+export default TapEnergyBar;

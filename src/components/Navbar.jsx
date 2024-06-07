@@ -6,7 +6,9 @@ import FrensIcon from "../assets/frensIcon.svg";
 import WebApp from "@twa-dev/sdk";
 import { useCreateUser } from "../api/axios";
 import { useUserStore } from "../stores/userStore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+import LoadingComponent from "./LoadingComponent";
 
 const Navbar = () => {
    const { pathname } = useLocation();
@@ -14,11 +16,14 @@ const Navbar = () => {
    const { currentUser, setCurrentUser } = useUserStore();
    const createUser = useCreateUser();
 
+   const [isLoading, setIsLoading] = useState(false);
+
    useEffect(() => {
       console.log("Current user from store:", currentUser);
    }, [currentUser]);
 
    const handleStart = () => {
+      setIsLoading(true);
       createUser.mutate(
          {
             address: WebApp?.initDataUnsafe?.user.id.toString(),
@@ -29,9 +34,11 @@ const Navbar = () => {
                console.log(data);
                setCurrentUser(data.data);
                navigate("/home");
+               setIsLoading(false);
             },
             onError: (error) => {
                console.log(error);
+               setIsLoading(false);
             },
          }
       );
@@ -47,19 +54,32 @@ const Navbar = () => {
    return (
       <>
          {pathname == "/" ? (
-            <nav className="arcade w-full h-8 absolute top-3/4 left-0 flex justify-end items-center z-10">
-               <div className="w-[215px] h-10 flex justify-end relative">
-                  <button
-                     onClick={handleStart}
-                     className="w-[205px] flex justify-center rounded-none border-transparent py-2 cursor-pointer font-medium text-base bg-[#009AE0] border-b-4 border-b-[#005791] text-white
+            <>
+               {isLoading ? (
+                  <nav className="arcade w-full h-8 absolute top-3/4 left-0 flex justify-end items-center z-10">
+                     <div className="w-[215px] h-10 flex justify-end relative">
+                        <button
+                           className="w-[205px] flex justify-center rounded-none border-transparent py-2 cursor-pointer font-medium text-base bg-[#009AE0] border-b-4 border-b-[#005791] text-white
                      before:bg-[#009AE0] before:border-b-4 before:border-b-[#005791]  before:shadow-lg before:w-2 before:h-6 before:absolute before:top-2 before:left-0.5"
-                  >
-                     {/*<Link to={"/home"} className="capitalize">*/}
-                     Become GigaChad
-                     {/*</Link>*/}
-                  </button>
-               </div>
-            </nav>
+                        >
+                           Loading...
+                        </button>
+                     </div>
+                  </nav>
+               ) : (
+                  <nav className="arcade w-full h-8 absolute top-3/4 left-0 flex justify-end items-center z-10">
+                     <div className="w-[215px] h-10 flex justify-end relative">
+                        <button
+                           onClick={handleStart}
+                           className="w-[205px] flex justify-center rounded-none border-transparent py-2 cursor-pointer font-medium text-base bg-[#009AE0] border-b-4 border-b-[#005791] text-white
+                     before:bg-[#009AE0] before:border-b-4 before:border-b-[#005791]  before:shadow-lg before:w-2 before:h-6 before:absolute before:top-2 before:left-0.5"
+                        >
+                           Become GigaChad
+                        </button>
+                     </div>
+                  </nav>
+               )}
+            </>
          ) : pathname == "/tap" ? null : (
             <nav className="arcade text-capitalize w-full  absolute bottom-0 left-0 flex justify-center items-end z-30">
                <ul className="w-full min-h-[85px] h-[calc(100vh-800px)] max-h-[130px] flex justify-around items-center  bg-black bg-opacity-85 pt-2">

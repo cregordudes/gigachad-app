@@ -3,43 +3,64 @@ import HomeImage from "../assets/bedroom-bg.gif";
 import HomeCharacter from "../assets/chad_character_1x.webp";
 import LoadingPage from "../pages/LoadingPage";
 
-import { Link } from "react-router-dom";
 import { useUserStore } from "../stores/userStore";
 import { useSendEvent } from "../api/axios";
+import moment from "moment";
 
 const HomeScene = () => {
-   const { currentUser, userStatistic, setUserStatistic } = useUserStore();
+   const { currentUser, setCurrentUser } = useUserStore();
    const sendEvent = useSendEvent();
-
-   const [imageLoaded, setImageLoaded] = useState(false);
    const imageRef = useRef(null);
+   const [timeLeft, setTimeLeft] = useState("0H 0MIN");
+   const [imageLoaded, setImageLoaded] = useState(false);
 
    const handleImageLoaded = () => {
       setImageLoaded(true);
    };
+   useEffect(() => {
+      const minutes = moment(currentUser?.estimation.seconds_left.rest).format(
+         "mm"
+      );
+      const hours = moment(currentUser?.estimation.seconds_left.rest).format(
+         "H"
+      );
+
+      setTimeLeft(`${hours}H ${minutes}MIN`);
+   }, [currentUser?.estimation.seconds_left.rest]);
 
    useEffect(() => {
-      if (imageRef.current) {
-         imageRef.current.addEventListener("load", handleImageLoaded);
+      const imgElement = imageRef.current;
+      if (imgElement) {
+         if (imgElement.complete) {
+            handleImageLoaded();
+         } else {
+            imgElement.addEventListener("load", handleImageLoaded);
+         }
       }
 
       return () => {
-         if (imageRef.current) {
-            imageRef.current.removeEventListener("load", handleImageLoaded);
+         if (imgElement) {
+            imgElement.removeEventListener("load", handleImageLoaded);
          }
       };
-   }, [imageRef.current]);
+   }, []);
 
-   const handleSendEvent = () => {
-      sendEvent.mutateAsync(
+   useEffect(() => {
+      setTimeout(() => {
+         setImageLoaded(true);
+      }, 1000);
+   }, []);
+
+   const handleSendEvent = (event) => {
+      sendEvent.mutate(
          {
-            telegram_user_id: currentUser.telegram.id,
-            event: "GYM_START",
+            telegram_user_id: currentUser?.user.telegram.id,
+            event: event === "start" ? "REST_START" : "REST_STOP",
          },
          {
             onSuccess: (data) => {
                console.log(data);
-               setUserStatistic(data.data);
+               setCurrentUser(data.data);
             },
             onError: (error) => {
                console.log(error);
@@ -47,6 +68,7 @@ const HomeScene = () => {
          }
       );
    };
+
    return (
       <div className="page-wrapper">
          {!imageLoaded && <LoadingPage />}
@@ -69,15 +91,36 @@ const HomeScene = () => {
                      className="w-auto sm:w-[40%] h-[95%] sm:h-auto"
                   />
                </div>
-               <div className="row-start-10 col-start-1 row-span-1 col-span-full flex items-center justify-start pr-10">
-                  <button
-                     className="arcade absolute top-[68%] w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791] text-[#005791]
+               <div className="row-start-9 col-start-1 row-span-1 col-span-full flex items-center justify-start pr-10 z-20">
+                  {currentUser?.user.state === "REST" &&
+                  currentUser?.estimation.seconds_left.rest === 0 ? (
+                     <button
+                        className="arcade absolute top-[68%] w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791] text-[#005791]
                    after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-6 after:absolute after:top-[10px] after:-right-2 
                      "
-                     onClick={handleSendEvent}
-                  >
-                     3H 24MIN
-                  </button>
+                        onClick={() => handleSendEvent("stop")}
+                     >
+                        Claim
+                     </button>
+                  ) : currentUser?.user.state === "REST" &&
+                    currentUser?.estimation.seconds_left.rest > 0 ? (
+                     <button
+                        className="arcade absolute top-[68%] w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791] text-[#005791]
+                   after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-6 after:absolute after:top-[10px] after:-right-2 
+                     "
+                     >
+                        {timeLeft}
+                     </button>
+                  ) : (
+                     <button
+                        className="arcade absolute top-[68%] w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791] text-white
+                   after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-6 after:absolute after:top-[10px] after:-right-2
+                     "
+                        onClick={() => handleSendEvent("start")}
+                     >
+                        Rest
+                     </button>
+                  )}
                </div>
             </div>
          </div>

@@ -1,5 +1,6 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useUserStore } from "../stores/userStore";
 
 export const axiosPublic = axios.create({
    baseURL: import.meta.env.VITE_BASE_URL,
@@ -108,6 +109,45 @@ export const useSendEvent = () => {
       mutationFn: sendEvent,
       queryKey: ["sendEvent"],
       options: {
+         onSuccess: (data) => {
+            console.log(data);
+         },
+         onError: (error) => {
+            console.log(error);
+         },
+      },
+   });
+};
+
+//event req (get request)
+//${level} param
+
+//event res
+//{
+//   "level": 0,
+//   "limits": {
+//     "energy": 0,
+//     "body": 0,
+//     "wealth": 0
+//   },
+//   "duration": {
+//     "rest": 0,
+//     "work": 0
+//   }
+// }
+
+const getConfig = async (level) => {
+   const response = await axiosPublic.get(`/api/configuration/get/${level}`);
+   return response.data;
+};
+
+export const useGetConfig = (level) => {
+   const currentUser = useUserStore((state) => state.currentUser);
+   return useQuery({
+      queryFn: () => getConfig(level),
+      queryKey: ["getConfig"],
+      options: {
+         enabled: !!currentUser?.user?.stats?.level,
          onSuccess: (data) => {
             console.log(data);
          },

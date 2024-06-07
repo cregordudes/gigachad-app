@@ -9,6 +9,10 @@ function App() {
       WebApp?.enableClosingConfirmation();
       console.log("WEB APP USER: ", WebApp?.initDataUnsafe?.user);
 
+      //if (!WebApp?.initDataUnsafe?.user) {
+      //   close();
+      //}
+
       if (
          WebApp?.platform !== "android" &&
          WebApp?.platform !== "ios" &&
