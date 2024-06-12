@@ -6,11 +6,19 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useSendEvent } from "../api/axios";
 import { useUserStore } from "../stores/userStore";
+import errorHandler from "../services/errorHandler";
 
 const GymTapScene = () => {
    const navigate = useNavigate();
    const sendEvent = useSendEvent();
    const { currentUser, setCurrentUser } = useUserStore();
+
+   useEffect(() => {
+      if (currentUser?.user?.state !== "GYM") {
+         console.log("useEFfect");
+         navigate("/gym");
+      }
+   }, [currentUser?.user?.state]);
 
    const handleExit = () => {
       sendEvent.mutate(
@@ -27,6 +35,7 @@ const GymTapScene = () => {
             onError: (error) => {
                console.log(error);
                navigate("/gym");
+               errorHandler(error);
             },
          }
       );
@@ -34,7 +43,7 @@ const GymTapScene = () => {
 
    useEffect(() => {
       WebApp.BackButton.show();
-      WebApp.BackButton.onClick(() => handleExit());
+      WebApp.BackButton.onClick(handleExit);
 
       return () => {
          WebApp.BackButton.hide();

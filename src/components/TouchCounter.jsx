@@ -1,22 +1,60 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import WebApp from "@twa-dev/sdk";
 import { useUserStore } from "../stores/userStore";
 import EnergyBar from "./EnergyBar";
 import TapEnergyBar from "./TapEnergyBar";
+import SocketService from "../services/socket";
+import { useSendEvent } from "../api/axios";
+import { useNavigate } from "react-router-dom";
+import errorHandler from "../services/errorHandler";
 
 const TouchCounter = ({ children }) => {
    const { currentUser, userLimits, setCurrentUser } = useUserStore();
 
-   const [tempEnergy, setTempEnergy] = useState(currentUser?.user.stats.energy);
+   const sendEvent = useSendEvent();
+
+   const navigate = useNavigate();
+
+   const [tempEnergy, setTempEnergy] = useState(
+      currentUser?.user?.stats?.energy || 0
+   );
    const [touchPoints, setTouchPoints] = useState([]);
    const [bodyCounter, setBodyCounter] = useState(0);
+   const [intervalCounter, setIntervalCounter] = useState(0);
    const intervalRef = useRef(null);
    const timeoutRef = useRef(null);
+   const intervalCounterRef = useRef(intervalCounter);
 
    const [isTired, setIsTired] = useState(false);
 
    const handleTouchStart = (e) => {
-      if (isTired) return;
+      if (
+         isTired ||
+         tempEnergy <= 0 ||
+         tempEnergy <= userLimits?.limits.energy / 2
+      ) {
+         WebApp.showAlert("Great job! You spent all your energy today!", () => {
+            sendEvent.mutate(
+               {
+                  telegram_user_id: currentUser?.user.telegram.id,
+                  event: "GYM_STOP",
+               },
+               {
+                  onSuccess: (data) => {
+                     console.log(data);
+                     setCurrentUser(data.data);
+                     navigate("/gym");
+                  },
+                  onError: (error) => {
+                     console.log(error);
+                     errorHandler(error);
+                     console.log("navigate");
+                     navigate("/gym");
+                  },
+               }
+            );
+         });
+      }
 
       if (navigator.vibrate) {
          navigator.vibrate(10);
@@ -33,8 +71,10 @@ const TouchCounter = ({ children }) => {
       };
 
       setTouchPoints((prev) => [...prev, newTouchPoint]);
+
       setBodyCounter((prev) => prev + 1);
-      setTempEnergy((prev) => prev - 1);
+      setIntervalCounter((prev) => prev + 1);
+      //setTempEnergy((prev) => prev - 1);
 
       // Clear any existing timeouts and intervals
       clearTimeout(timeoutRef.current);
@@ -49,8 +89,10 @@ const TouchCounter = ({ children }) => {
                y: touch.clientY,
             };
             setTouchPoints((prev) => [...prev, newTouchPointDuringHold]);
+
             setBodyCounter((prev) => prev + 1);
-            setTempEnergy((prev) => prev - 1);
+            setIntervalCounter((prev) => prev + 1);
+            //setTempEnergy((prev) => prev - 1);
          }, 300);
       }, 300); // 300ms delay to differentiate between tap and hold
 
@@ -63,7 +105,8 @@ const TouchCounter = ({ children }) => {
 
       if (
          tempEnergy === 1 ||
-         tempEnergy === userLimits?.limits.energy / 2 + 1
+         tempEnergy <= userLimits?.limits.energy / 2 + 1 ||
+         tempEnergy <= 0
       ) {
          setIsTired(true);
       }
@@ -73,6 +116,34 @@ const TouchCounter = ({ children }) => {
       clearTimeout(timeoutRef.current);
       clearInterval(intervalRef.current);
    };
+
+   useEffect(() => {
+      intervalCounterRef.current = intervalCounter;
+   }, [intervalCounter]);
+
+   useEffect(() => {
+      // Connect to the WebSocket server
+      SocketService.connect(currentUser?.user?.telegram.id);
+
+      // Listen for messages
+      SocketService.onStatsUpdated((msg) => {
+         setTempEnergy(msg.energy);
+      });
+
+      // Send message
+      const messageInterval = setInterval(() => {
+         const message = { taps_count: intervalCounterRef.current };
+         if (tempEnergy > 0) {
+            SocketService.sendMessage(message);
+         }
+         setIntervalCounter(0);
+      }, 1000);
+
+      return () => {
+         SocketService.disconnect();
+         clearInterval(messageInterval);
+      };
+   }, []);
 
    return (
       <div
@@ -92,8 +163,8 @@ const TouchCounter = ({ children }) => {
          ))}
          <div className="relative flex justify-center items-center row-start-1 col-start-1 row-span-2 col-span-full z-20">
             <TapEnergyBar
-               currentLevel={tempEnergy}
-               maxLevel={currentUser?.user?.stats.energy}
+               currentLevel={tempEnergy.toFixed(0)}
+               maxLevel={currentUser?.user?.stats.energy.toFixed(0)}
             />
          </div>
 
