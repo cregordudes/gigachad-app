@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import HomeImage from "../assets/bedroom-bg.gif";
 import HomeCharacter from "../assets/chad_character_1x.webp";
 import LoadingPage from "../pages/LoadingPage";
-
+import errorHandler from "../services/errorHandler";
 import { useUserStore } from "../stores/userStore";
 import { useSendEvent } from "../api/axios";
 import moment from "moment";
@@ -11,25 +11,83 @@ const HomeScene = () => {
    const { currentUser, setCurrentUser } = useUserStore();
    const sendEvent = useSendEvent();
    const imageRef = useRef(null);
-   const [timeLeft, setTimeLeft] = useState("0H 0MIN");
+   //const [timeLeft, setTimeLeft] = useState("0H 0MIN");
+   const [timeLeft, setTimeLeft] = useState("0MIN 0S");
    const [imageLoaded, setImageLoaded] = useState(false);
 
    const handleImageLoaded = () => {
       setImageLoaded(true);
    };
+
    useEffect(() => {
-      if (!currentUser?.estimation?.seconds_left) {
+      if (!currentUser?.estimation?.seconds_left?.rest) {
          return;
       }
-      const minutes = moment(currentUser?.estimation.seconds_left.rest).format(
-         "m"
-      );
-      const hours = moment(currentUser?.estimation.seconds_left.rest).format(
-         "H"
+
+      const temp_time = moment.duration(
+         currentUser?.estimation?.seconds_left?.rest,
+         "seconds"
       );
 
-      setTimeLeft(`${hours}H ${minutes}MIN`);
-   }, [currentUser?.estimation?.seconds_left]);
+      const minutes = temp_time.minutes();
+      const hours = temp_time.hours();
+
+      //setTimeLeft(`${hours}H ${minutes}MIN`);
+      setTimeLeft(`${minutes}MIN ${temp_time.seconds()}S`);
+   }, [currentUser?.estimation?.seconds_left?.rest]);
+
+   useEffect(() => {
+      if (!currentUser?.estimation?.seconds_left?.rest) {
+         return;
+      }
+      const timer = setInterval(() => {
+         setTimeLeft((prevTime) => {
+            // Parse previous timeLeft
+            const [minutesPart, secondsPart] = prevTime.split(" ");
+            const minutes = parseInt(minutesPart.replace("MIN", ""));
+            const seconds = parseInt(secondsPart.replace("S", ""));
+
+            // Create a moment duration from parsed values
+            const duration = moment.duration({
+               minutes,
+               seconds,
+            });
+
+            if (duration.minutes() === 0 && duration.seconds() === 0) {
+               clearInterval(timer);
+               sendEvent.mutate(
+                  {
+                     telegram_user_id: currentUser?.user?.telegram.id,
+                     event: "CHECK",
+                  },
+                  {
+                     onSuccess: (data) => {
+                        console.log(data);
+                        setCurrentUser(data.data);
+                     },
+                     onError: (error) => {
+                        console.log(error);
+                        errorHandler(error);
+                     },
+                  }
+               );
+               return "0MIN 0S";
+            }
+            // Subtract one second
+            duration.subtract(1, "second");
+
+            // Extract new hours, minutes, and seconds
+            const newMinutes = duration.minutes();
+            const newSeconds = duration.seconds();
+
+            // Format and set the new timeLeft
+            return `${newMinutes}MIN ${newSeconds}S`;
+         });
+      }, 1000);
+
+      // Cleanup interval on component unmount
+      return () => clearInterval(timer);
+   }, [currentUser?.estimation?.seconds_left?.rest]);
 
    useEffect(() => {
       const imgElement = imageRef.current;
@@ -67,6 +125,7 @@ const HomeScene = () => {
             },
             onError: (error) => {
                console.log(error);
+               errorHandler(error);
             },
          }
       );

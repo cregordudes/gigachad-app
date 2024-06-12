@@ -6,11 +6,13 @@ import LoadingPage from "../pages/LoadingPage";
 import { useUserStore } from "../stores/userStore";
 import { useSendEvent } from "../api/axios";
 import moment from "moment";
+import errorHandler from "../services/errorHandler";
 
 const WorkScene = () => {
    const { currentUser, setCurrentUser } = useUserStore();
    const sendEvent = useSendEvent();
-   const [timeLeft, setTimeLeft] = useState("0H 0MIN");
+   //const [timeLeft, setTimeLeft] = useState("0H 0MIN");
+   const [timeLeft, setTimeLeft] = useState("0MIN 0S");
    const [imageLoaded, setImageLoaded] = useState(false);
 
    const handleImageLoaded = () => {
@@ -18,19 +20,75 @@ const WorkScene = () => {
    };
 
    useEffect(() => {
-      if (!currentUser?.estimation?.seconds_left) {
+      if (!currentUser?.estimation?.seconds_left?.work) {
          return;
       }
 
-      const minutes = moment(currentUser?.estimation?.seconds_left.rest).format(
-         "m"
-      );
-      const hours = moment(currentUser?.estimation?.seconds_left.rest).format(
-         "H"
+      const temp_time = moment.duration(
+         currentUser?.estimation?.seconds_left?.work,
+         "seconds"
       );
 
-      setTimeLeft(`${hours}H ${minutes}MIN`);
-   }, [currentUser?.estimation?.seconds_left]);
+      const minutes = temp_time.minutes();
+      //const hours = temp_time.hours();
+
+      //setTimeLeft(`${hours}H ${minutes}MIN`);
+      setTimeLeft(`${minutes}MIN ${temp_time.seconds()}S`);
+   }, [currentUser?.estimation?.seconds_left?.work]);
+
+   useEffect(() => {
+      if (!currentUser?.estimation?.seconds_left?.work) {
+         return;
+      }
+      const timer = setInterval(() => {
+         setTimeLeft((prevTime) => {
+            // Parse previous timeLeft
+            const [minutesPart, secondsPart] = prevTime.split(" ");
+            const minutes = parseInt(minutesPart.replace("MIN", ""));
+            const seconds = parseInt(secondsPart.replace("S", ""));
+
+            // Create a moment duration from parsed values
+            const duration = moment.duration({
+               minutes,
+               seconds,
+            });
+
+            if (duration.minutes() === 0 && duration.seconds() === 0) {
+               clearInterval(timer);
+               sendEvent.mutate(
+                  {
+                     telegram_user_id: currentUser?.user?.telegram.id,
+                     event: "CHECK",
+                  },
+                  {
+                     onSuccess: (data) => {
+                        console.log(data);
+                        setCurrentUser(data.data);
+                     },
+                     onError: (error) => {
+                        console.log(error);
+                        errorHandler(error);
+                     },
+                  }
+               );
+               return "0MIN 0S";
+            }
+
+            // Subtract one second
+            duration.subtract(1, "second");
+
+            // Extract new hours, minutes, and seconds
+            const newMinutes = duration.minutes();
+            const newSeconds = duration.seconds();
+
+            // Format and set the new timeLeft
+            return `${newMinutes}MIN ${newSeconds}S`;
+         });
+      }, 1000);
+
+      // Cleanup interval on component unmount
+      return () => clearInterval(timer);
+   }, [currentUser?.estimation?.seconds_left?.work]);
 
    useEffect(() => {
       setTimeout(() => {
@@ -39,7 +97,7 @@ const WorkScene = () => {
    }, []);
 
    const handleSendEvent = (event) => {
-      sendEvent.mutateAsync(
+      sendEvent.mutate(
          {
             telegram_user_id: currentUser?.user?.telegram.id,
             event: event === "start" ? "WORK_START" : "WORK_STOP",
@@ -51,6 +109,7 @@ const WorkScene = () => {
             },
             onError: (error) => {
                console.log(error);
+               errorHandler(error);
             },
          }
       );
@@ -98,26 +157,27 @@ const WorkScene = () => {
             </div>
 
             <div className="row-start-9 col-start-1 row-span-1 col-span-full flex items-center justify-start pr-10 z-20">
-               {currentUser?.user?.state === "WORK" ? (
-                  <button
-                     className="relative arcade w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791]
-                   after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-6 after:absolute after:top-[10px] after:-right-2 text-white
-                     "
-                     onClick={() => {
-                        handleSendEvent("stop");
-                     }}
-                  >
-                     Claim
-                     <div className="absolute top-[10px] -right-2 w-2 h-6 bg-[#009AE0] shadow-lg"></div>
-                  </button>
-               ) : currentUser?.user?.state === "WORK" &&
-                 currentUser?.estimation?.seconds_left?.work > 0 ? (
+               {currentUser?.user?.state === "WORK" &&
+               currentUser?.estimation?.seconds_left?.work > 0 ? (
                   <button
                      className="arcade absolute top-[68%] w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791] text-[#005791]
                    after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-6 after:absolute after:top-[10px] after:-right-2 
                      "
                   >
                      {timeLeft}
+                  </button>
+               ) : currentUser?.user?.state === "WORK" &&
+                 currentUser?.estimation?.seconds_left?.work === 0 ? (
+                  <button
+                     className="relative arcade w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791]
+    after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-6 after:absolute after:top-[10px] after:-right-2 text-white
+      "
+                     onClick={() => {
+                        handleSendEvent("stop");
+                     }}
+                  >
+                     Claim
+                     <div className="absolute top-[10px] -right-2 w-2 h-6 bg-[#009AE0] shadow-lg"></div>
                   </button>
                ) : currentUser?.user?.state === "REST" ||
                  currentUser?.user?.state === "GYM" ? (

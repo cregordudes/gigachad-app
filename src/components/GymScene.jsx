@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import LoadingPage from "../pages/LoadingPage";
 import { useSendEvent } from "../api/axios";
 import { useUserStore } from "../stores/userStore";
+import errorHandler from "../services/errorHandler";
 
 const Gym = () => {
    const { currentUser, setCurrentUser } = useUserStore();
@@ -22,7 +23,7 @@ const Gym = () => {
    }, []);
 
    const handleSendEvent = (event) => {
-      sendEvent.mutateAsync(
+      sendEvent.mutate(
          {
             telegram_user_id: currentUser?.user?.telegram.id,
             event: event === "start" ? "GYM_START" : "GYM_STOP",
@@ -31,9 +32,11 @@ const Gym = () => {
             onSuccess: (data) => {
                console.log(data);
                setCurrentUser(data.data);
+               if (event === "start") navigate("/tap");
             },
             onError: (error) => {
                console.log(error);
+               errorHandler(error);
             },
          }
       );
@@ -69,7 +72,7 @@ const Gym = () => {
                </div>
 
                <div className="row-start-9 col-start-1 row-span-1 col-span-full flex items-center justify-start pr-10 z-20">
-                  {currentUser?.user?.state === "GYM_START" ? (
+                  {currentUser?.user?.state === "Gym" ? (
                      <button
                         className="arcade absolute top-[68%] w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791] text-white
                    after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-6 after:absolute after:top-[10px] after:-right-2 
@@ -94,9 +97,7 @@ const Gym = () => {
                      "
                         onClick={() => handleSendEvent("start")}
                      >
-                        <Link to={"/tap"} className="">
-                           Start
-                        </Link>
+                        Start
                      </button>
                   )}
                </div>

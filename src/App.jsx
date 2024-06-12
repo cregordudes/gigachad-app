@@ -11,6 +11,10 @@ function App() {
       WebApp?.expand();
       WebApp?.enableClosingConfirmation();
       console.log("WEB APP USER: ", WebApp?.initDataUnsafe?.user);
+      const urlParams = new URLSearchParams(window.location.search);
+      const myParam = urlParams.get("start_param");
+
+      console.log("START PARAM: ", myParam);
 
       if (!currentUser?.user?.telegram?.id) {
          setCurrentUser(WebApp?.initDataUnsafe?.user);

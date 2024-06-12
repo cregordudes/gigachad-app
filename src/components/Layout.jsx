@@ -6,6 +6,7 @@ import LoadingPage from "../pages/LoadingPage.jsx";
 import { useUserStore } from "../stores/userStore.js";
 import { useSendEvent } from "../api/axios";
 import WebApp from "@twa-dev/sdk";
+import errorHandler from "../services/errorHandler.js";
 
 const Layout = () => {
    const swipeElement = useRef(null);
@@ -25,16 +26,7 @@ const Layout = () => {
       };
 
       const handleTouchMove = (e) => {
-         //const touch = e.touches[0];
-         //const currentY = touch.clientY;
-         //const yOffset = currentY - startY;
-         //setOffsetY(yOffset);
          e.preventDefault();
-
-         //// Prevent default behavior if swiping down
-         //if (yOffset > 0) {
-         //   e.preventDefault();
-         //}
       };
 
       const handleTouchEnd = () => {
@@ -75,6 +67,7 @@ const Layout = () => {
             },
             onError: (error) => {
                console.log(error);
+               errorHandler(error);
             },
          }
       );

@@ -7,8 +7,7 @@ import WebApp from "@twa-dev/sdk";
 import { useCreateUser } from "../api/axios";
 import { useUserStore } from "../stores/userStore";
 import { useEffect, useState } from "react";
-
-import LoadingComponent from "./LoadingComponent";
+import errorHandler from "../services/errorHandler";
 
 const Navbar = () => {
    const { pathname } = useLocation();
@@ -33,15 +32,35 @@ const Navbar = () => {
             onSuccess: (data) => {
                console.log(data);
                setCurrentUser(data.data);
-               navigate("/home");
+               if (
+                  data.data?.user?.state === "START" ||
+                  data.data?.user?.state === "REST"
+               ) {
+                  navigate("/home");
+               } else if (data.data?.user?.state === "GYM") {
+                  navigate("/tap");
+               } else if (data.data?.user?.state === "WORK") {
+                  navigate("/work");
+               }
                setIsLoading(false);
             },
             onError: (error) => {
                console.log(error);
+               errorHandler(error);
                setIsLoading(false);
             },
          }
       );
+   };
+
+   const telegramAlert = (name) => {
+      const condition =
+         currentUser.user.state === "REST"
+            ? "resting at home"
+            : currentUser.user.state === "GYM"
+            ? "at gym"
+            : currentUser.user.state === "WORK" && "at work";
+      WebApp.showAlert(`Cannot go to ${name} since currently ${condition} `);
    };
 
    const navItems = [
@@ -89,20 +108,35 @@ const Navbar = () => {
                         key={item.id}
                      >
                         <div className="w-1 h-5 bg-[#424C4D]  border-b-4 border-b-[#27383A]" />
-                        <li
-                           className="w-16 h-auto max-h-[65px] flex border-transparent px-2 py-2 cursor-pointer font-medium text-sm bg-[#424C4D] border-b-4 border-b-[#27383A] shadow-lg"
-                           //before:bg-[#009AE0] before:border-b-4 before:border-b-[#005791]  before:shadow-lg before:w-2 before:h-6 before:
-                           //after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-4 after:absolute after:top-3 after:right-8
-                        >
-                           <Link to={`/${item.link}`} className="">
-                              <img
-                                 src={item.icon}
-                                 alt="icon"
-                                 className="w-full h-auto object-cover"
-                                 loading="lazy"
-                              />
-                              <span className="text-gray-400">{item.name}</span>
-                           </Link>
+                        <li className="w-16 h-auto max-h-[65px] flex border-transparent px-2 py-2 cursor-pointer font-medium text-sm bg-[#424C4D] border-b-4 border-b-[#27383A] shadow-lg">
+                           {currentUser.user.state === "START" ? (
+                              <Link to={`/${item.link}`} className="">
+                                 <img
+                                    src={item.icon}
+                                    alt="icon"
+                                    className="w-full h-auto object-cover"
+                                    loading="lazy"
+                                 />
+                                 <span className="text-gray-400">
+                                    {item.name}
+                                 </span>
+                              </Link>
+                           ) : (
+                              <div
+                                 onClick={() => telegramAlert(item.name)}
+                                 className=""
+                              >
+                                 <img
+                                    src={item.icon}
+                                    alt="icon"
+                                    className="w-full h-auto object-cover"
+                                    loading="lazy"
+                                 />
+                                 <span className="text-gray-400">
+                                    {item.name}
+                                 </span>
+                              </div>
+                           )}
                         </li>
                         <div className="w-1 h-5 bg-[#424C4D]" />
                      </div>
