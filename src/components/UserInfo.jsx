@@ -35,7 +35,9 @@ const UserInfo = () => {
    };
    return (
       <>
-         {pathname === "/" || pathname == "/tap" ? null : (
+         {pathname === "/" ||
+         pathname == "/tap" ||
+         pathname == "/frens" ? null : (
             <>
                <div className="w-full absolute top-0 left-0 flex justify-evenly items-center z-50  bg-gray-900 bg-opacity-75 py-1 max-h-[160px]">
                   <div className="flex flex-col justify-start h-full w-1/2">

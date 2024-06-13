@@ -51,6 +51,10 @@ const TouchCounter = ({ children }) => {
                      console.log("navigate");
                      navigate("/gym");
                   },
+                  onSettled: () => {
+                     console.log("onSettled");
+                     navigate("/gym");
+                  },
                }
             );
          });

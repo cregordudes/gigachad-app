@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect, useRef, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "./Navbar.jsx";
 import UserInfo from "./UserInfo.jsx";
 import LoadingPage from "../pages/LoadingPage.jsx";
@@ -10,6 +10,7 @@ import errorHandler from "../services/errorHandler.js";
 
 const Layout = () => {
    const swipeElement = useRef(null);
+   const location = useLocation();
 
    const { currentUser, setCurrentUser } = useUserStore();
    const sendEvent = useSendEvent();
@@ -18,6 +19,7 @@ const Layout = () => {
    const [offsetY, setOffsetY] = useState(0);
 
    useEffect(() => {
+      if (location.pathname === "/frens") return;
       const element = swipeElement.current;
 
       const handleTouchStart = (e) => {

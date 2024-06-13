@@ -99,7 +99,7 @@ const Navbar = () => {
                   </nav>
                )}
             </>
-         ) : pathname == "/tap" ? null : (
+         ) : pathname == "/tap" || pathname == "/frens" ? null : (
             <nav className="arcade text-capitalize w-full  absolute bottom-0 left-0 flex justify-center items-end z-30">
                <ul className="w-full min-h-[85px] h-[calc(100vh-800px)] max-h-[130px] flex justify-around items-center  bg-black bg-opacity-85 pt-2">
                   {navItems.map((item) => (
