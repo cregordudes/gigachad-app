@@ -15,7 +15,6 @@ const GymTapScene = () => {
 
    useEffect(() => {
       if (currentUser?.user?.state !== "GYM") {
-         console.log("useEFfect");
          navigate("/gym");
       }
    }, [currentUser?.user?.state]);

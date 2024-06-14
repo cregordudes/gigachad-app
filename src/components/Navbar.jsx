@@ -17,10 +17,6 @@ const Navbar = () => {
 
    const [isLoading, setIsLoading] = useState(false);
 
-   useEffect(() => {
-      console.log("Current user from store:", currentUser);
-   }, [currentUser]);
-
    const handleStart = () => {
       setIsLoading(true);
       createUser.mutate(
@@ -30,7 +26,6 @@ const Navbar = () => {
          },
          {
             onSuccess: (data) => {
-               console.log(data);
                setCurrentUser(data.data);
                if (
                   data.data?.user?.state === "START" ||

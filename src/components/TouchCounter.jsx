@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import WebApp from "@twa-dev/sdk";
 import { useUserStore } from "../stores/userStore";
-import EnergyBar from "./EnergyBar";
 import TapEnergyBar from "./TapEnergyBar";
 import SocketService from "../services/socket";
 import { useSendEvent } from "../api/axios";
@@ -16,7 +15,7 @@ const TouchCounter = ({ children }) => {
    const navigate = useNavigate();
 
    const [tempEnergy, setTempEnergy] = useState(
-      currentUser?.user?.stats?.energy || 0
+      currentUser?.user?.stats?.energy.toFixed(0) || 0
    );
    const [touchPoints, setTouchPoints] = useState([]);
    const [bodyCounter, setBodyCounter] = useState(0);
@@ -30,8 +29,8 @@ const TouchCounter = ({ children }) => {
    const handleTouchStart = (e) => {
       if (
          isTired ||
-         tempEnergy <= 0 ||
-         tempEnergy <= userLimits?.limits.energy / 2
+         tempEnergy === 0 ||
+         tempEnergy === userLimits?.limits.energy / 2
       ) {
          WebApp.showAlert("Great job! You spent all your energy today!", () => {
             sendEvent.mutate(
@@ -41,23 +40,20 @@ const TouchCounter = ({ children }) => {
                },
                {
                   onSuccess: (data) => {
-                     console.log(data);
                      setCurrentUser(data.data);
                      navigate("/gym");
                   },
                   onError: (error) => {
-                     console.log(error);
                      errorHandler(error);
-                     console.log("navigate");
                      navigate("/gym");
                   },
                   onSettled: () => {
-                     console.log("onSettled");
                      navigate("/gym");
                   },
                }
             );
          });
+         return;
       }
 
       if (navigator.vibrate) {
@@ -108,9 +104,8 @@ const TouchCounter = ({ children }) => {
       }, 1000);
 
       if (
-         tempEnergy === 1 ||
-         tempEnergy <= userLimits?.limits.energy / 2 + 1 ||
-         tempEnergy <= 0
+         tempEnergy === 0 ||
+         tempEnergy === userLimits?.limits.energy / 2 + 1
       ) {
          setIsTired(true);
       }
@@ -131,7 +126,7 @@ const TouchCounter = ({ children }) => {
 
       // Listen for messages
       SocketService.onStatsUpdated((msg) => {
-         setTempEnergy(msg.energy);
+         setTempEnergy(Number(msg.energy.toFixed(0)));
       });
 
       // Send message
@@ -167,7 +162,7 @@ const TouchCounter = ({ children }) => {
          ))}
          <div className="relative flex justify-center items-center row-start-1 col-start-1 row-span-2 col-span-full z-20">
             <TapEnergyBar
-               currentLevel={tempEnergy.toFixed(0)}
+               currentLevel={tempEnergy}
                maxLevel={currentUser?.user?.stats.energy.toFixed(0)}
             />
          </div>

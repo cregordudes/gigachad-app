@@ -50,10 +50,6 @@ const Layout = () => {
    }, [startY]);
 
    useEffect(() => {
-      console.log("currentUser:", currentUser);
-   }, [currentUser]);
-
-   useEffect(() => {
       if (!currentUser) return;
       sendEvent.mutate(
          {

@@ -81,12 +81,18 @@ const UserInfo = () => {
                         <span>1800</span>
                      </div>
                   </div>
-                  <div className="flex flex-col items-center justify-center w-1/3 gap-2">
+                  <div className="flex flex-col items-center justify-center w-1/3 gap-2 relative">
+                     <div className="absolute top-1/4 left-0 flex flex-col items-center justify-end pl-4 w-1/3">
+                        <p className="text-green-400 text-md">LVL</p>
+                        <p className="text-green-400 text-md">
+                           {configData?.level || 0}
+                        </p>
+                     </div>
                      <img
                         //onClick={togglePopup}
                         alt="profile"
                         src={ProfileIcon}
-                        className="w-[100px] h-auto max-w-[120px]  cursor-pointer"
+                        className="w-[100px] h-auto max-w-[120px] cursor-pointer"
                      />
 
                      <div className="bg-[#932828] border-b-2 border-b-[#4C0B0B] w-[100px] flex items-center justify-evenly p-1">
