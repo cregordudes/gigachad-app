@@ -166,7 +166,7 @@ const TouchCounter = ({ children }) => {
          ))}
          <div className="relative flex justify-center items-center row-start-1 col-start-1 row-span-2 col-span-full z-20">
             <TapEnergyBar
-               currentLevel={tempEnergy.toFixed(0)}
+               currentLevel={Number(tempEnergy)?.toFixed(0)}
                maxLevel={currentUser?.user?.stats.energy.toFixed(0)}
             />
          </div>
