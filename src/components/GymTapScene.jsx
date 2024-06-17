@@ -3,7 +3,7 @@ import GymImage from "../assets/GymTap.png";
 import GymCharacter from "../assets/training.gif";
 import TouchCounter from "../components/TouchCounter";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSendEvent } from "../api/axios";
 import { useUserStore } from "../stores/userStore";
 import errorHandler from "../services/errorHandler";
@@ -12,14 +12,16 @@ const GymTapScene = () => {
    const navigate = useNavigate();
    const sendEvent = useSendEvent();
    const { currentUser, setCurrentUser } = useUserStore();
+   const [isLoading, setIsLoading] = useState(false);
 
    useEffect(() => {
       if (currentUser?.user?.state !== "GYM") {
          navigate("/gym");
       }
-   }, [currentUser?.user?.state]);
+   }, [currentUser.user.state]);
 
    const handleExit = () => {
+      setIsLoading(true);
       sendEvent.mutate(
          {
             telegram_user_id: currentUser?.user.telegram.id,
@@ -30,10 +32,27 @@ const GymTapScene = () => {
                console.log(data);
                setCurrentUser(data.data);
                navigate("/gym");
+               setIsLoading(false);
             },
             onError: (error) => {
-               console.log(error);
                navigate("/gym");
+               errorHandler(error);
+            },
+            onSettled: () => {
+               navigate("/gym");
+            },
+         }
+      );
+      sendEvent.mutate(
+         {
+            telegram_user_id: currentUser?.user?.telegram.id,
+            event: "CHECK",
+         },
+         {
+            onSuccess: (data) => {
+               setCurrentUser(data.data);
+            },
+            onError: (error) => {
                errorHandler(error);
             },
          }
@@ -42,12 +61,14 @@ const GymTapScene = () => {
 
    useEffect(() => {
       WebApp.BackButton.show();
-      WebApp.BackButton.onClick(handleExit);
+      if (!isLoading) {
+         WebApp.BackButton.onClick(handleExit);
+      }
 
       return () => {
          WebApp.BackButton.hide();
       };
-   }, []);
+   }, [isLoading]);
 
    return (
       <div className="relative w-full h-screen grid grid-rows-12">

@@ -69,7 +69,7 @@ const Layout = () => {
             },
          }
       );
-   }, []);
+   }, [location.pathname]);
 
    return (
       <section

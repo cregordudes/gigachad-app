@@ -22,6 +22,10 @@ class SocketService {
          console.log("STATS UPDATED:", arg);
       });
 
+      this.socket.on("set_limits", (arg) => {
+         console.log("Limits Set:", arg);
+      });
+
       this.socket.on("disconnect", () => {
          console.log("Disconnected from WebSocket server");
       });
@@ -56,6 +60,12 @@ class SocketService {
    onStatsUpdated(callback) {
       if (this.socket) {
          this.socket.on("stats_updated", callback);
+      }
+   }
+
+   onLimitsSet(callback) {
+      if (this.socket) {
+         this.socket.on("set_limits", callback);
       }
    }
 }

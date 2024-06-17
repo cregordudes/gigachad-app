@@ -14,6 +14,7 @@ const WorkScene = () => {
    //const [timeLeft, setTimeLeft] = useState("0H 0MIN");
    const [timeLeft, setTimeLeft] = useState("0MIN 0S");
    const [imageLoaded, setImageLoaded] = useState(false);
+   const [isLoading, setIsloading] = useState(false);
 
    const handleImageLoaded = () => {
       setImageLoaded(true);
@@ -97,6 +98,8 @@ const WorkScene = () => {
    }, []);
 
    const handleSendEvent = (event) => {
+      setIsloading(true);
+
       sendEvent.mutate(
          {
             telegram_user_id: currentUser?.user?.telegram.id,
@@ -106,9 +109,11 @@ const WorkScene = () => {
             onSuccess: (data) => {
                console.log(data);
                setCurrentUser(data.data);
+               setIsloading(false);
             },
             onError: (error) => {
                console.log(error);
+               setIsloading(false);
                errorHandler(error);
             },
          }
@@ -157,8 +162,16 @@ const WorkScene = () => {
             </div>
 
             <div className="row-start-9 col-start-1 row-span-1 col-span-full flex items-center justify-start pr-10 z-20">
-               {currentUser?.user?.state === "WORK" &&
-               currentUser?.estimation?.seconds_left?.work > 0 ? (
+               {isLoading ? (
+                  <button
+                     className="arcade absolute top-[68%] w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791] text-white
+                   after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-6 after:absolute after:top-[10px] after:-right-2 
+                     "
+                  >
+                     <ClipLoader size={28} color="#FFFFFF" className="z-30" />
+                  </button>
+               ) : currentUser?.user?.state === "WORK" &&
+                 currentUser?.estimation?.seconds_left?.work > 0 ? (
                   <button
                      className="arcade absolute top-[68%] w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791] text-[#005791]
                    after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-6 after:absolute after:top-[10px] after:-right-2 

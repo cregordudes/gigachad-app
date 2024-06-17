@@ -26,6 +26,11 @@ const TouchCounter = ({ children }) => {
 
    const [isTired, setIsTired] = useState(false);
 
+   const roundTo = (num, decimalPlaces) => {
+      const factor = Math.pow(10, decimalPlaces);
+      return Math.round(num * factor) / factor;
+   };
+
    const handleTouchStart = (e) => {
       if (
          isTired ||
@@ -102,13 +107,6 @@ const TouchCounter = ({ children }) => {
             prev.filter((point) => point.id !== newTouchPoint.id)
          );
       }, 1000);
-
-      if (
-         tempEnergy === 0 ||
-         tempEnergy === userLimits?.limits.energy / 2 + 1
-      ) {
-         setIsTired(true);
-      }
    };
 
    const handleTouchEnd = () => {
@@ -126,7 +124,13 @@ const TouchCounter = ({ children }) => {
 
       // Listen for messages
       SocketService.onStatsUpdated((msg) => {
-         setTempEnergy(Number(msg.energy.toFixed(0)));
+         setTempEnergy(roundTo(Number(msg.energy), 1));
+      });
+
+      SocketService.onLimitsSet((msg) => {
+         if (msg.taps_left === 0) {
+            setIsTired(true);
+         }
       });
 
       // Send message
@@ -162,7 +166,7 @@ const TouchCounter = ({ children }) => {
          ))}
          <div className="relative flex justify-center items-center row-start-1 col-start-1 row-span-2 col-span-full z-20">
             <TapEnergyBar
-               currentLevel={tempEnergy}
+               currentLevel={tempEnergy.toFixed(0)}
                maxLevel={currentUser?.user?.stats.energy.toFixed(0)}
             />
          </div>

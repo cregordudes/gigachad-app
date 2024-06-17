@@ -6,11 +6,13 @@ import LoadingPage from "../pages/LoadingPage";
 import { useSendEvent } from "../api/axios";
 import { useUserStore } from "../stores/userStore";
 import errorHandler from "../services/errorHandler";
+import { ClipLoader } from "react-spinners";
 
 const Gym = () => {
    const { currentUser, setCurrentUser } = useUserStore();
    const sendEvent = useSendEvent();
    const [imageLoaded, setImageLoaded] = useState(false);
+   const [isLoading, setIsloading] = useState(false);
 
    const handleImageLoaded = () => {
       setImageLoaded(true);
@@ -23,6 +25,7 @@ const Gym = () => {
    }, []);
 
    const handleSendEvent = (event) => {
+      setIsloading(true);
       sendEvent.mutate(
          {
             telegram_user_id: currentUser?.user?.telegram.id,
@@ -33,9 +36,11 @@ const Gym = () => {
                console.log(data);
                setCurrentUser(data.data);
                if (event === "start") navigate("/tap");
+               setIsloading(false);
             },
             onError: (error) => {
                console.log(error);
+               setIsloading(false);
                errorHandler(error);
             },
          }
@@ -72,7 +77,19 @@ const Gym = () => {
                </div>
 
                <div className="row-start-9 col-start-1 row-span-1 col-span-full flex items-center justify-start pr-10 z-20">
-                  {currentUser?.user?.state === "Gym" ? (
+                  {isLoading ? (
+                     <button
+                        className="arcade absolute top-[68%] w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791] text-white
+                   after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-6 after:absolute after:top-[10px] after:-right-2 
+                     "
+                     >
+                        <ClipLoader
+                           size={28}
+                           color="#FFFFFF"
+                           className="z-30"
+                        />
+                     </button>
+                  ) : currentUser?.user?.state === "Gym" ? (
                      <button
                         className="arcade absolute top-[68%] w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791] text-white
                    after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-6 after:absolute after:top-[10px] after:-right-2 
