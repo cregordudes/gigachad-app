@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useUserStore } from "../stores/userStore";
+import { queryClient } from "../main";
 
 export const axiosPublic = axios.create({
    baseURL: import.meta.env.VITE_BASE_URL,
@@ -111,6 +112,9 @@ export const useSendEvent = () => {
       options: {
          onSuccess: (data) => {
             console.log(data);
+            queryClient.invalidateQueries({
+               queryKey: ["currentUser", "getConfig"],
+            });
          },
          onError: (error) => {
             console.log(error);
@@ -145,7 +149,7 @@ export const useGetConfig = (level) => {
    const currentUser = useUserStore((state) => state.currentUser);
    return useQuery({
       queryFn: () => getConfig(level),
-      queryKey: ["getConfig"],
+      queryKey: ["getConfig", currentUser?.user?.stats?.level],
       options: {
          enabled: !!currentUser?.user?.stats?.level,
          onSuccess: (data) => {

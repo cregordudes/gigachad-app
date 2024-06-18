@@ -6,7 +6,7 @@ import FrensIcon from "../assets/frensIcon.svg";
 import WebApp from "@twa-dev/sdk";
 import { useCreateUser } from "../api/axios";
 import { useUserStore } from "../stores/userStore";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import errorHandler from "../services/errorHandler";
 
 const Navbar = () => {

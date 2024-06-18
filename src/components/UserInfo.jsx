@@ -20,7 +20,7 @@ const UserInfo = () => {
       if (!isConfigLoading) {
          setUserLimits(configData);
       }
-   }, [configData, isConfigLoading]);
+   }, [configData, isConfigLoading, currentUser?.user?.stats?.level]);
 
    const [isPopupOpen, setIsPopupOpen] = useState(false);
    //const [currentBody, setCurrentBody] = useState(1000);
