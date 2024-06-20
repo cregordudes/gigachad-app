@@ -67,12 +67,10 @@ const WorkScene = () => {
                   {
                      onSuccess: (data) => {
                         console.log(data);
-                        WebApp.HapticFeedback.notificationOccurred("success");
                         setCurrentUser(data.data);
                      },
                      onError: (error) => {
                         console.log(error);
-                        WebApp.HapticFeedback.notificationOccurred("error");
 
                         errorHandler(error);
                      },
@@ -115,11 +113,13 @@ const WorkScene = () => {
             onSuccess: (data) => {
                console.log(data);
                setCurrentUser(data.data);
+               WebApp.HapticFeedback.notificationOccurred("success");
                setIsloading(false);
             },
             onError: (error) => {
                console.log(error);
                setIsloading(false);
+               WebApp.HapticFeedback.notificationOccurred("error");
                errorHandler(error);
             },
          }
