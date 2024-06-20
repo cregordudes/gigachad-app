@@ -31,11 +31,13 @@ const TouchCounter = ({ children }) => {
       return Math.round(num * factor) / factor;
    };
 
+   const userLimitEnergyHalf = roundTo(userLimits?.limits.energy / 2, 1);
+
    const handleTouchStart = (e) => {
       if (
          isTired ||
          tempEnergy === 0 ||
-         tempEnergy === userLimits?.limits.energy / 2
+         tempEnergy === userLimitEnergyHalf + 0.5
       ) {
          WebApp.showAlert("Great job! You spent all your energy today!", () => {
             sendEvent.mutate(
@@ -46,10 +48,13 @@ const TouchCounter = ({ children }) => {
                {
                   onSuccess: (data) => {
                      setCurrentUser(data.data);
+                     WebApp.HapticFeedback.notificationOccurred("success");
                      navigate("/gym");
                   },
                   onError: (error) => {
                      errorHandler(error);
+                     WebApp.HapticFeedback.notificationOccurred("error");
+
                      navigate("/gym");
                   },
                   onSettled: () => {

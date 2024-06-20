@@ -20,10 +20,6 @@ function App() {
          setCurrentUser(WebApp?.initDataUnsafe?.user);
       }
 
-      //if (!WebApp?.initDataUnsafe?.user) {
-      //   close();
-      //}
-
       if (
          WebApp?.platform !== "android" &&
          WebApp?.platform !== "ios" &&

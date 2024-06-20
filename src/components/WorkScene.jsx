@@ -8,6 +8,8 @@ import { useSendEvent } from "../api/axios";
 import moment from "moment";
 import errorHandler from "../services/errorHandler";
 import { ClipLoader } from "react-spinners";
+import WebApp from "@twa-dev/sdk";
+import { warningOccured } from "../utils/feedbackOccured";
 
 const WorkScene = () => {
    const { currentUser, setCurrentUser } = useUserStore();
@@ -65,10 +67,13 @@ const WorkScene = () => {
                   {
                      onSuccess: (data) => {
                         console.log(data);
+                        WebApp.HapticFeedback.notificationOccurred("success");
                         setCurrentUser(data.data);
                      },
                      onError: (error) => {
                         console.log(error);
+                        WebApp.HapticFeedback.notificationOccurred("error");
+
                         errorHandler(error);
                      },
                   }
@@ -150,7 +155,10 @@ const WorkScene = () => {
             </div>
 
             <div className="row-start-7 col-start-1 row-span-3 col-span-full flex items-start justify-start pl-4 z-10">
-               <div className="flex items-around justify-center flex-col ">
+               <div
+                  className="flex items-around justify-center flex-col "
+                  onClick={() => WebApp.HapticFeedback.impactOccurred("light")}
+               >
                   <img
                      alt="boosts"
                      src={TasksIcon}
@@ -177,6 +185,7 @@ const WorkScene = () => {
                      className="arcade absolute top-[68%] w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791] text-[#005791]
                    after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-6 after:absolute after:top-[10px] after:-right-2 
                      "
+                     onClick={warningOccured}
                   >
                      {timeLeft}
                   </button>
@@ -199,6 +208,7 @@ const WorkScene = () => {
                      className="arcade absolute top-[68%] w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791] text-[#005791]
                    after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-6 after:absolute after:top-[10px] after:-right-2 
                      "
+                     onClick={warningOccured}
                   >
                      Busy
                   </button>

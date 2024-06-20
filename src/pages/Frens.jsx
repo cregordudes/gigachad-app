@@ -14,7 +14,10 @@ const Frens = () => {
 
    useEffect(() => {
       WebApp.BackButton.show();
-      WebApp.BackButton.onClick(() => navigate("/home"));
+      WebApp.BackButton.onClick(() => {
+         WebApp.HapticFeedback.impactOccurred("light");
+         navigate("/home");
+      });
 
       return () => {
          WebApp.BackButton.hide();

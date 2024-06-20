@@ -7,6 +7,8 @@ import { useUserStore } from "../stores/userStore";
 import { useSendEvent } from "../api/axios";
 import moment from "moment";
 import { ClipLoader } from "react-spinners";
+import WebApp from "@twa-dev/sdk";
+import { warningOccured } from "../utils/feedbackOccured";
 
 const HomeScene = () => {
    const { currentUser, setCurrentUser } = useUserStore();
@@ -116,7 +118,6 @@ const HomeScene = () => {
 
    const handleSendEvent = (event) => {
       setIsloading(true);
-
       sendEvent.mutate(
          {
             telegram_user_id: currentUser?.user.telegram.id,
@@ -126,11 +127,13 @@ const HomeScene = () => {
             onSuccess: (data) => {
                console.log(data);
                setCurrentUser(data.data);
+               WebApp.HapticFeedback.notificationOccurred("success");
                setIsloading(false);
             },
             onError: (error) => {
                console.log(error);
                setIsloading(false);
+               WebApp.HapticFeedback.notificationOccurred("error");
                errorHandler(error);
             },
          }
@@ -190,6 +193,7 @@ const HomeScene = () => {
                         className="arcade absolute top-[68%] w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791] text-[#005791]
                    after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-6 after:absolute after:top-[10px] after:-right-2 
                      "
+                        onClick={warningOccured}
                      >
                         {timeLeft}
                      </button>

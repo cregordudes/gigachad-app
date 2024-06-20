@@ -19,6 +19,7 @@ const Navbar = () => {
 
    const handleStart = () => {
       setIsLoading(true);
+      WebApp.HapticFeedback.impactOccurred("light");
       createUser.mutate(
          {
             address: WebApp?.initDataUnsafe?.user.id.toString(),
@@ -55,6 +56,7 @@ const Navbar = () => {
             : currentUser.user.state === "GYM"
             ? "at gym"
             : currentUser.user.state === "WORK" && "at work";
+      WebApp.HapticFeedback.notificationOccurred("error");
       WebApp.showAlert(`Cannot go to ${name} since currently ${condition} `);
    };
 
@@ -105,7 +107,15 @@ const Navbar = () => {
                         <div className="w-1 h-5 bg-[#424C4D]  border-b-4 border-b-[#27383A]" />
                         <li className="w-16 h-auto max-h-[65px] flex border-transparent px-2 py-2 cursor-pointer font-medium text-sm bg-[#424C4D] border-b-4 border-b-[#27383A] shadow-lg">
                            {currentUser.user.state === "START" ? (
-                              <Link to={`/${item.link}`} className="">
+                              <Link
+                                 to={`/${item.link}`}
+                                 className=""
+                                 onClick={() =>
+                                    WebApp.HapticFeedback.impactOccurred(
+                                       "light"
+                                    )
+                                 }
+                              >
                                  <img
                                     src={item.icon}
                                     alt="icon"

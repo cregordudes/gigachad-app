@@ -7,6 +7,7 @@ import NoBoostIcon from "../assets/noBoostIcon.svg";
 import EnergyBar from "./EnergyBar.jsx";
 import { useUserStore } from "../stores/userStore.js";
 import { useGetConfig } from "../api/axios.js";
+import WebApp from "@twa-dev/sdk";
 
 const UserInfo = () => {
    const { pathname } = useLocation();
@@ -23,15 +24,13 @@ const UserInfo = () => {
    }, [configData, isConfigLoading, currentUser?.user?.stats?.level]);
 
    const [isPopupOpen, setIsPopupOpen] = useState(false);
-   //const [currentBody, setCurrentBody] = useState(1000);
-   //const [currentWealth, setCurrentWealth] = useState(1000);
-   //const [currentEnergy, setCurrentEnergy] = useState(200);
 
    const maxEnergy = 200;
    const maxLevel = 1000;
 
    const togglePopup = () => {
-      setIsPopupOpen(!isPopupOpen);
+      WebApp.HapticFeedback.impactOccurred("light");
+      //setIsPopupOpen(!isPopupOpen);
    };
    return (
       <>
@@ -89,7 +88,7 @@ const UserInfo = () => {
                         </p>
                      </div>
                      <img
-                        //onClick={togglePopup}
+                        onClick={togglePopup}
                         alt="profile"
                         src={ProfileIcon}
                         className="w-[100px] h-auto max-w-[120px] cursor-pointer"

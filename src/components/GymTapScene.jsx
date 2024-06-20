@@ -31,12 +31,15 @@ const GymTapScene = () => {
             onSuccess: (data) => {
                console.log(data);
                setCurrentUser(data.data);
+               WebApp.HapticFeedback.notificationOccurred("success");
+
                navigate("/gym");
                setIsLoading(false);
             },
             onError: (error) => {
                navigate("/gym");
                errorHandler(error);
+               WebApp.HapticFeedback.notificationOccurred("error");
             },
             onSettled: () => {
                navigate("/gym");
