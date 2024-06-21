@@ -7,11 +7,11 @@ import { useUserStore } from "../stores/userStore.js";
 import { useSendEvent } from "../api/axios";
 import WebApp from "@twa-dev/sdk";
 import errorHandler from "../services/errorHandler.js";
-import music from "../assets/giga.mp3";
+//import music from "../assets/giga.mp3";
 
 const Layout = () => {
    const swipeElement = useRef(null);
-   const audioRef = useRef(new Audio(music));
+   //const audioRef = useRef(new Audio(music));
    const location = useLocation();
 
    const { currentUser, setCurrentUser } = useUserStore();
@@ -23,17 +23,17 @@ const Layout = () => {
    const [isPlaying, setIsPlaying] = useState(false);
 
    const handlePlay = () => {
-      audioRef.current.volume = 0.4;
-      audioRef.current.loop = true;
-      audioRef.current.play();
+      //audioRef.current.volume = 0.4;
+      //audioRef.current.loop = true;
+      //audioRef.current.play();
       setIsPlaying(true);
    };
 
    const handleVisibilityChange = () => {
       if (document.hidden) {
-         audioRef.current.pause();
+         //audioRef.current.pause();
       } else {
-         audioRef.current.play();
+         //audioRef.current.play();
          if (!currentUser) return;
          sendEvent.mutate(
             {
@@ -63,7 +63,7 @@ const Layout = () => {
       }
 
       return () => {
-         audioRef.current.pause();
+         //audioRef.current.pause();
          element.removeEventListener("click", handlePlay);
       };
    }, []);
