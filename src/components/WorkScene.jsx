@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from "react";
-import WorkImage from "../assets/work-bg.gif";
+//import WorkImage from "../assets/work-bg.gif";
+import WorkImage from "../assets/newWorkStaticBg.png";
+
 import WorkCharacter from "../assets/chad_character_1x.webp";
 import TasksIcon from "../assets/tasksIcon.svg";
 import LoadingPage from "../pages/LoadingPage";
@@ -98,7 +100,7 @@ const WorkScene = () => {
    useEffect(() => {
       setTimeout(() => {
          setImageLoaded(true);
-      }, 1500);
+      }, 200);
    }, []);
 
    const handleSendEvent = (event) => {
@@ -145,7 +147,7 @@ const WorkScene = () => {
                className="row-span-full col-span-full w-screen h-screen object-cover"
             />
 
-            <div className="row-start-7 sm:row-start-6 row-span-5 col-start-1 col-span-1 flex items-start justify-end sm:justify-center pb-0 z-10">
+            <div className="row-start-5 sm:row-start-4 row-span-7 col-start-1 col-span-1 flex items-start justify-end sm:justify-center pb-0 z-10">
                <img
                   src={WorkCharacter}
                   alt="chad"

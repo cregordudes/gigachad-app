@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
-import HomeImage from "../assets/bedroom-bg.gif";
+//import HomeImage from "../assets/bedroom-bg.gif";
+import HomeImage from "../assets/newHomeStaticBg.png";
 import HomeCharacter from "../assets/chad_character_1x.webp";
 import LoadingPage from "../pages/LoadingPage";
 import errorHandler from "../services/errorHandler";
@@ -113,7 +114,7 @@ const HomeScene = () => {
    useEffect(() => {
       setTimeout(() => {
          setImageLoaded(true);
-      }, 1000);
+      }, 200);
    }, []);
 
    const handleSendEvent = (event) => {
@@ -156,7 +157,7 @@ const HomeScene = () => {
                   className="row-span-full col-span-full w-screen h-screen object-cover"
                />
 
-               <div className="row-start-6 sm:row-start-8 row-span-5 col-start-1 col-span-1 flex items-end justify-end pb-0">
+               <div className="row-start-4 sm:row-start-6 row-span-7 col-start-1 col-span-1 flex items-end justify-end pb-0">
                   <img
                      src={HomeCharacter}
                      alt="chad"
