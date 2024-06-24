@@ -21,7 +21,11 @@ const AppRouter = () => {
 
                <Route
                   path="frens"
-                  element={<PrivateRoute allowedStates={["START"]} />}
+                  element={
+                     <PrivateRoute
+                        allowedStates={["START", "REST", "GYM", "WORK"]}
+                     />
+                  }
                >
                   <Route index element={<Frens />} />
                </Route>

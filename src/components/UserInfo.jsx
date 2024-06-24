@@ -38,7 +38,7 @@ const UserInfo = () => {
          pathname == "/tap" ||
          pathname == "/frens" ? null : (
             <>
-               <div className="w-full absolute top-0 left-0 flex justify-evenly items-center z-50  bg-gray-900 bg-opacity-75 py-1 max-h-[160px]">
+               <div className="w-full absolute top-0 left-0 flex justify-between items-center z-50  bg-gray-900 bg-opacity-75 py-1 max-h-[160px]">
                   <div className="flex flex-col justify-start h-full w-1/2">
                      <EnergyBar
                         currentLevel={currentUser?.user?.stats.energy.toFixed(
@@ -81,7 +81,7 @@ const UserInfo = () => {
                      </div>
                   </div>
                   <div className="flex flex-col items-center justify-center w-1/3 gap-2 relative">
-                     <div className="absolute top-1/4 left-0 flex flex-col items-center justify-end pl-4 w-1/3">
+                     <div className="absolute top-1/4 left-1 flex flex-col items-center justify-end pl-4 w-1/3">
                         <p className="text-green-400 text-md">LVL</p>
                         <p className="text-green-400 text-md">
                            {configData?.level || 0}

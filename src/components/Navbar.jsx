@@ -106,7 +106,8 @@ const Navbar = () => {
                      >
                         <div className="w-1 h-5 bg-[#424C4D]  border-b-4 border-b-[#27383A]" />
                         <li className="w-16 h-auto max-h-[65px] flex border-transparent px-2 py-2 cursor-pointer font-medium text-sm bg-[#424C4D] border-b-4 border-b-[#27383A] shadow-lg">
-                           {currentUser.user.state === "START" ? (
+                           {currentUser.user.state === "START" ||
+                           item.link == "frens" ? (
                               <Link
                                  to={`/${item.link}`}
                                  className=""
@@ -131,12 +132,17 @@ const Navbar = () => {
                                  onClick={() => telegramAlert(item.name)}
                                  className=""
                               >
-                                 <img
-                                    src={item.icon}
-                                    alt="icon"
-                                    className="w-full h-auto object-cover"
-                                    loading="lazy"
-                                 />
+                                 <div
+                                    id="image-container"
+                                    className="min-h-[31px]"
+                                 >
+                                    <img
+                                       src={item.icon}
+                                       alt="icon"
+                                       className="w-full h-auto object-cover"
+                                       loading="lazy"
+                                    />
+                                 </div>
                                  <span className="text-gray-400">
                                     {item.name}
                                  </span>

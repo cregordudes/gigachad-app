@@ -31,14 +31,8 @@ const TouchCounter = ({ children }) => {
       return Math.round(num * factor) / factor;
    };
 
-   const userLimitEnergyHalf = roundTo(userLimits?.limits.energy / 2, 1);
-
    const handleTouchStart = (e) => {
-      if (
-         isTired ||
-         tempEnergy === 0 ||
-         tempEnergy === userLimitEnergyHalf + 0.5
-      ) {
+      if (tempEnergy === 0 || isTired) {
          WebApp.showAlert("Great job! You spent all your energy today!", () => {
             sendEvent.mutate(
                {
@@ -71,7 +65,7 @@ const TouchCounter = ({ children }) => {
       }
 
       // Vibration for iOS
-      WebApp.HapticFeedback.impactOccurred("light");
+      WebApp.HapticFeedback.impactOccurred("soft");
 
       const touch = e.touches[0];
       const newTouchPoint = {
@@ -172,7 +166,7 @@ const TouchCounter = ({ children }) => {
          <div className="relative flex justify-center items-center row-start-1 col-start-1 row-span-2 col-span-full z-20">
             <TapEnergyBar
                currentLevel={Number(tempEnergy)?.toFixed(0)}
-               maxLevel={currentUser?.user?.stats.energy.toFixed(0)}
+               maxLevel={userLimits?.limits?.energy}
             />
          </div>
 
