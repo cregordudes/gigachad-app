@@ -42,7 +42,7 @@ const Navbar = () => {
             },
             onError: (error) => {
                console.log(error);
-               errorHandler(error);
+               //errorHandler(error);
                setIsLoading(false);
             },
          }
@@ -74,10 +74,8 @@ const Navbar = () => {
                {isLoading ? (
                   <nav className="arcade w-full h-8 absolute top-3/4 left-0 flex justify-end items-center z-10">
                      <div className="w-[215px] h-10 flex justify-end relative">
-                        <button
-                           className="w-[205px] flex justify-center rounded-none border-transparent py-2 cursor-pointer font-medium text-base bg-[#009AE0] border-b-4 border-b-[#005791] text-white
-                     before:bg-[#009AE0] before:border-b-4 before:border-b-[#005791]  before:shadow-lg before:w-2 before:h-6 before:absolute before:top-2 before:left-0.5"
-                        >
+                        <button className="w-[205px] flex justify-center rounded-none border-transparent py-2 cursor-pointer font-medium text-base bg-[#009AE0] border-b-4 border-b-[#005791] text-white">
+                           <span className="absolute bg-[#009AE0] border-b-4 border-b-[#005791] shadow-lg w-2 h-6 top-2 left-0.5"></span>
                            Loading...
                         </button>
                      </div>
@@ -98,7 +96,7 @@ const Navbar = () => {
             </>
          ) : pathname == "/tap" || pathname == "/frens" ? null : (
             <nav className="arcade text-capitalize w-full  absolute bottom-0 left-0 flex justify-center items-end z-30">
-               <ul className="w-full min-h-[85px] h-[calc(100vh-800px)] max-h-[130px] flex justify-around items-center  bg-black bg-opacity-85 pt-2">
+               <ul className="w-full min-h-[85px] h-[calc(100vh-800px)] max-h-[130px] flex justify-around items-center  bg-black bg-opacity-65 pt-2">
                   {navItems.map((item) => (
                      <div
                         className="flex justify-center items-center w-[72px] h-[65px]"

@@ -10,6 +10,7 @@ import moment from "moment";
 import { ClipLoader } from "react-spinners";
 import WebApp from "@twa-dev/sdk";
 import { warningOccured } from "../utils/feedbackOccured";
+import AnimatedCounter from "./ClaimAnimation";
 
 const HomeScene = () => {
    const { currentUser, setCurrentUser } = useUserStore();
@@ -19,6 +20,8 @@ const HomeScene = () => {
    const [timeLeft, setTimeLeft] = useState("0MIN 0S");
    const [imageLoaded, setImageLoaded] = useState(false);
    const [isLoading, setIsloading] = useState(false);
+
+   const [showAnimation, setShowAnimation] = useState(false);
 
    const handleImageLoaded = () => {
       setImageLoaded(true);
@@ -129,6 +132,10 @@ const HomeScene = () => {
                console.log(data);
                setCurrentUser(data.data);
                WebApp.HapticFeedback.notificationOccurred("success");
+               if (event !== "start") {
+                  setShowAnimation(true);
+                  setTimeout(() => setShowAnimation(false), 3000);
+               }
                setIsloading(false);
             },
             onError: (error) => {
@@ -157,6 +164,8 @@ const HomeScene = () => {
                   className="row-span-full col-span-full w-screen h-screen object-cover"
                />
 
+               {showAnimation && <AnimatedCounter number={150} type="energy" />}
+
                <div className="row-start-4 sm:row-start-6 row-span-7 col-start-1 col-span-1 flex items-end justify-end pb-0">
                   <img
                      src={HomeCharacter}
@@ -180,14 +189,16 @@ const HomeScene = () => {
                      </button>
                   ) : currentUser?.user?.state === "REST" &&
                     currentUser?.estimation?.seconds_left?.rest === 0 ? (
-                     <button
-                        className="arcade absolute top-[68%] w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791] text-[#005791]
+                     <>
+                        <button
+                           className="arcade absolute top-[68%] w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791] text-white
                    after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-6 after:absolute after:top-[10px] after:-right-2 
                      "
-                        onClick={() => handleSendEvent("stop")}
-                     >
-                        Claim
-                     </button>
+                           onClick={() => handleSendEvent("stop")}
+                        >
+                           Claim
+                        </button>
+                     </>
                   ) : currentUser?.user?.state === "REST" &&
                     currentUser?.estimation?.seconds_left?.rest > 0 ? (
                      <button

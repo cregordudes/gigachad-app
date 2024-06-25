@@ -12,6 +12,7 @@ import errorHandler from "../services/errorHandler";
 import { ClipLoader } from "react-spinners";
 import WebApp from "@twa-dev/sdk";
 import { warningOccured } from "../utils/feedbackOccured";
+import AnimatedCounter from "./ClaimAnimation";
 
 const WorkScene = () => {
    const { currentUser, setCurrentUser } = useUserStore();
@@ -20,6 +21,8 @@ const WorkScene = () => {
    const [timeLeft, setTimeLeft] = useState("0MIN 0S");
    const [imageLoaded, setImageLoaded] = useState(false);
    const [isLoading, setIsloading] = useState(false);
+
+   const [showAnimation, setShowAnimation] = useState(false);
 
    const handleImageLoaded = () => {
       setImageLoaded(true);
@@ -117,6 +120,10 @@ const WorkScene = () => {
                setCurrentUser(data.data);
                WebApp.HapticFeedback.notificationOccurred("success");
                setIsloading(false);
+               if (event !== "start") {
+                  setShowAnimation(true);
+                  setTimeout(() => setShowAnimation(false), 3000);
+               }
             },
             onError: (error) => {
                console.log(error);
@@ -139,6 +146,7 @@ const WorkScene = () => {
                imageLoaded ? "" : "hidden"
             }`}
          >
+            {showAnimation && <AnimatedCounter number={150} type="money" />}
             <img
                src={WorkImage}
                alt="work"
@@ -193,17 +201,19 @@ const WorkScene = () => {
                   </button>
                ) : currentUser?.user?.state === "WORK" &&
                  currentUser?.estimation?.seconds_left?.work === 0 ? (
-                  <button
-                     className="relative arcade w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791]
+                  <>
+                     <button
+                        className="relative arcade w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791]
     after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-6 after:absolute after:top-[10px] after:-right-2 text-white
       "
-                     onClick={() => {
-                        handleSendEvent("stop");
-                     }}
-                  >
-                     Claim
-                     <div className="absolute top-[10px] -right-2 w-2 h-6 bg-[#009AE0] shadow-lg"></div>
-                  </button>
+                        onClick={() => {
+                           handleSendEvent("stop");
+                        }}
+                     >
+                        Claim
+                        <div className="absolute top-[10px] -right-2 w-2 h-6 bg-[#009AE0] shadow-lg"></div>
+                     </button>
+                  </>
                ) : currentUser?.user?.state === "REST" ||
                  currentUser?.user?.state === "GYM" ? (
                   <button

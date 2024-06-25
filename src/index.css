@@ -288,3 +288,27 @@ img {
   flex-direction: column;
   z-index: 1;
 }*/
+
+
+.animated-touch-point {
+  animation: moveToTopLeft 3s ease-out forwards, fadeOut 2s ease-out forwards;
+  font-size: 24px; /* Adjust font size as needed */
+}
+
+@keyframes moveToTopLeft {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(0, -100vh);
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
