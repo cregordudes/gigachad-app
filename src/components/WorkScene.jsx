@@ -203,15 +203,14 @@ const WorkScene = () => {
                  currentUser?.estimation?.seconds_left?.work === 0 ? (
                   <>
                      <button
-                        className="relative arcade w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791]
-    after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-6 after:absolute after:top-[10px] after:-right-2 text-white
-      "
+                        className="arcade absolute top-[68%] w-[120px] flex justify-center rounded-none border-transparent text-lg py-2 cursor-pointer font-medium  bg-[#009AE0] border-b-4 border-b-[#005791] text-white
+                   after:bg-[#009AE0]  after:shadow-lg after:w-2 after:h-6 after:absolute after:top-[10px] after:-right-2 
+                     "
                         onClick={() => {
                            handleSendEvent("stop");
                         }}
                      >
                         Claim
-                        <div className="absolute top-[10px] -right-2 w-2 h-6 bg-[#009AE0] shadow-lg"></div>
                      </button>
                   </>
                ) : currentUser?.user?.state === "REST" ||
